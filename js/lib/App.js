@@ -1,11 +1,14 @@
 class App {
   constructor(options = {}) {
-    const defaults = {};
+    const defaults = {
+      el: '#app',
+    };
     this.options = _.extend({}, defaults, options);
   }
 
   init() {
-    this.initialized = true;
-    this.$el = $('#app');
+    this.pointerManager = new PointerManager({
+      target: this.options.el,
+    });
   }
 }
