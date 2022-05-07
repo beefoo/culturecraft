@@ -8,6 +8,7 @@ class App {
 
   init() {
     this.pointerManager = new PointerManager({
+      debug: true,
       target: this.options.el,
     });
   }
