@@ -3,12 +3,13 @@ class App {
     const defaults = {
       el: '#app',
     };
-    this.options = _.extend({}, defaults, options);
+    const q = StringUtil.queryParams();
+    this.options = _.extend({}, defaults, options, q);
   }
 
   init() {
     this.pointerManager = new PointerManager({
-      debug: true,
+      debug: this.options.pointerDebug !== undefined,
       target: this.options.el,
     });
   }
