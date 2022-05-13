@@ -1,0 +1,27 @@
+{
+  "dataFile": "metadata.csv",
+  "maxImageSize": [1024, 1024],
+  "collections": [
+    {
+      "id": "met",
+      "name": "Metropolitan Museum of Art",
+      "description": "The Met is the most popular art museum in the United States"
+    },{
+      "id": "si",
+      "name": "Smithsonian Institution",
+      "description": "The Smithsonian Institution is the world's largest museum, education, and research complex"
+    },{
+      "id": "nypl",
+      "name": "New York Public Library",
+      "description": "The New York Public Library is the second largest public library in the United States"
+    },{
+      "id": "biodiversity",
+      "name": "Biodiversity Heritage Library",
+      "description": "The Biodiversity Heritage Library is the world's largest open access digital library for biodiversity literature and archives"
+    },{
+      "id": "nasa",
+      "name": "NASA",
+      "description": "The National Aeronautics and Space Administration is the global leader in space exploration"
+    }
+  ]
+}

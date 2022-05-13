@@ -3,3 +3,5 @@ tmp/*
 node_modules/
 *.log
 package-lock.json
+ingest/images/*
+!ingest/images/.keep
