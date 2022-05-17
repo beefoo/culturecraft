@@ -2,7 +2,7 @@
   "dataFile": "ingest/metadata.csv",
   "imageDirectory": "ingest/images/",
   "imageSize": [1024, 1024],
-  "metadataProperties": ["Title", "URL", "Creator",  "Year"],
+  "metadataProperties": ["Title", "Source", "URL", "Creator",  "Year"],
   "targetImageDirectory": "img/",
   "targetDataFile": "data/metadata.json",
   "collections": [
