@@ -1,7 +1,8 @@
 {
   "dataFile": "ingest/metadata.csv",
   "imageDirectory": "ingest/images/",
-  "imageSize": [1024, 1024],
+  "textureSize": [1024, 1024],
+  "thumbSize": [128, 128],
   "metadataProperties": ["Title", "Source", "URL", "Creator",  "Year"],
   "targetImageDirectory": "img/",
   "targetDataFile": "data/metadata.json",
