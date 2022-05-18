@@ -24,10 +24,10 @@ function resizeImages(cfg, metadata) {
   metadata.forEach(async (item, i) => {
     const textureImage = await sharp(`${cfg.imageDirectory}${item.Filename}`)
       .resize(cfg.textureSize[0], cfg.textureSize[1]);
+    const savedTextureImage = await textureImage.toFile(`${cfg.targetImageDirectory}/texture/${i}.jpg`);
     const savedThumbImage = await textureImage
       .resize(cfg.thumbSize[0], cfg.thumbSize[1])
       .toFile(`${cfg.targetImageDirectory}/thumb/${i}.jpg`);
-    const savedTextureImage = await textureImage.toFile(`${cfg.targetImageDirectory}/texture/${i}.jpg`);
     console.log(`Finished ${item.Filename}`);
   });
 }
