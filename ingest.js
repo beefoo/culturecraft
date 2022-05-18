@@ -20,16 +20,29 @@ function readMetadata(cfg, onFinished) {
     });
 }
 
+function resizeImage(cfg, metadata, i) {
+  const item = metadata[i];
+  const textureImage = sharp(`${cfg.imageDirectory}${item.Filename}`)
+    .resize(cfg.textureSize[0], cfg.textureSize[1])
+    .then(() => {
+      textureImage
+        .toFile(`${cfg.targetImageDirectory}/texture/${i}.jpg`)
+        .then(() => {
+          textureImage
+            .resize(cfg.thumbSize[0], cfg.thumbSize[1])
+            .toFile(`${cfg.targetImageDirectory}/thumb/${i}.jpg`)
+            .then(() => {
+              console.log(`Finished ${item.Filename}`);
+              if (i < metadata.length - 1) {
+                resizeImage(cfg, metadata, i + 1);
+              }
+            });
+        });
+    });
+}
+
 function resizeImages(cfg, metadata) {
-  metadata.forEach(async (item, i) => {
-    const textureImage = await sharp(`${cfg.imageDirectory}${item.Filename}`)
-      .resize(cfg.textureSize[0], cfg.textureSize[1]);
-    const savedTextureImage = await textureImage.toFile(`${cfg.targetImageDirectory}/texture/${i}.jpg`);
-    const savedThumbImage = await textureImage
-      .resize(cfg.thumbSize[0], cfg.thumbSize[1])
-      .toFile(`${cfg.targetImageDirectory}/thumb/${i}.jpg`);
-    console.log(`Finished ${item.Filename}`);
-  });
+  resizeImage(cfg, metadata, 0);
 }
 
 function writeMetadata(cfg, metadata) {
