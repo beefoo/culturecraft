@@ -23,20 +23,18 @@ function readMetadata(cfg, onFinished) {
 function resizeImage(cfg, metadata, i) {
   const item = metadata[i];
   const textureImage = sharp(`${cfg.imageDirectory}${item.Filename}`)
-    .resize(cfg.textureSize[0], cfg.textureSize[1])
+    .resize(cfg.textureSize[0], cfg.textureSize[1]);
+  textureImage
+    .toFile(`${cfg.targetImageDirectory}/texture/${i}.jpg`)
     .then(() => {
       textureImage
-        .toFile(`${cfg.targetImageDirectory}/texture/${i}.jpg`)
+        .resize(cfg.thumbSize[0], cfg.thumbSize[1])
+        .toFile(`${cfg.targetImageDirectory}/thumb/${i}.jpg`)
         .then(() => {
-          textureImage
-            .resize(cfg.thumbSize[0], cfg.thumbSize[1])
-            .toFile(`${cfg.targetImageDirectory}/thumb/${i}.jpg`)
-            .then(() => {
-              console.log(`Finished ${item.Filename}`);
-              if (i < metadata.length - 1) {
-                resizeImage(cfg, metadata, i + 1);
-              }
-            });
+          console.log(`Processed ${item.Filename}`);
+          if (i < metadata.length - 1) {
+            resizeImage(cfg, metadata, i + 1);
+          }
         });
     });
 }
