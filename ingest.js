@@ -1,7 +1,25 @@
 const csv = require('csv-parser');
 const fs = require('fs');
+const path = require('path');
 const sharp = require('sharp');
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 const config = require('./config.json');
+
+const { argv } = yargs(hideBin(process.argv));
+
+function emptyDirectory(dirName) {
+  fs.readdirSync(dirName, (readErr, files) => {
+    if (readErr) throw readErr;
+
+    files.forEach((file, i) => {
+      fs.unlinkSync(path.join(dirName, file), (unlinkErr) => {
+        if (unlinkErr) throw unlinkErr;
+      });
+    });
+  });
+  console.log(`Emptied ${dirName}`);
+}
 
 function readMetadata(cfg, onFinished) {
   const metadata = [];
@@ -66,6 +84,11 @@ function writeMetadata(cfg, metadata) {
     if (err) throw err;
     console.log(`Wrote ${rowsOut.length} rows to ${cfg.targetDataFile}`);
   });
+}
+
+if (argv.reset) {
+  emptyDirectory(`${config.targetImageDirectory}/texture`);
+  emptyDirectory(`${config.targetImageDirectory}/thumb`);
 }
 
 readMetadata(config, (cfg, rawData) => {

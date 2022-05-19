@@ -3,13 +3,15 @@
   "description": "Paint with open culture",
   "scripts": {
     "ingest": "node ingest.js",
+    "ingest-reset": "node ingest.js -reset",
     "lint": "./node_modules/.bin/eslint",
     "start": "node server.js"
   },
   "dependencies": {
     "csv-parser": "^3.0.0",
     "express": "^4.17.2",
-    "sharp": "^0.30.4"
+    "sharp": "^0.30.4",
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
     "eslint": "^7.25.0",
