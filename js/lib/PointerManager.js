@@ -3,7 +3,9 @@ class PointerManager {
     const defaults = {
       debug: false,
       debugTarget: '#pointer-debug',
+      dragThreshold: 10, // move this distance before being considered a drag
       maxPointers: 24,
+      pressThreshold: 250, // time it takes to go from tap to press
       target: '#app',
     };
     this.options = _.extend({}, defaults, options);
@@ -12,11 +14,29 @@ class PointerManager {
 
   init() {
     this.$target = $(this.options.target);
-    this.pointerIds = [];
+    this.pointers = {};
     if (this.options.debug) {
       this.loadDebug();
     }
     this.loadListeners();
+  }
+
+  getPointer(event) {
+    let { pointerId } = event;
+
+    if (pointerId === undefined) pointerId = '0';
+    else pointerId = String(pointerId);
+
+    let pointer;
+    if (_.has(this.pointers, pointerId)) {
+      pointer = this.pointers[pointerId];
+    } else {
+      pointer = new Pointer({ id: pointerId });
+    }
+
+    pointer.addEvent(event);
+
+    return pointer;
   }
 
   loadDebug() {
@@ -31,20 +51,12 @@ class PointerManager {
   }
 
   loadListeners() {
-    const hammer = new Hammer(this.$target[0]);
+    const target = this.$target[0];
 
-    hammer.get('pan').set({
-      direction: Hammer.DIRECTION_ALL,
-    });
-    hammer.on('pan', (e) => {
-      this.onDrag(e);
-    });
-    hammer.on('press pressup', (e) => {
-      this.onPress(e);
-    });
-    hammer.on('tap', (e) => {
-      this.onTap(e);
-    });
+    target.addEventListener('pointerdown', (e) => this.onPointerStart(e), false);
+    target.addEventListener('pointerup', (e) => this.onPointerEnd(e), false);
+    target.addEventListener('pointercancel', (e) => this.onPointerEnd(e), false);
+    target.addEventListener('pointermove', (e) => this.onPointerMove(e), false);
   }
 
   log(event) {
@@ -74,15 +86,15 @@ class PointerManager {
     else $debugPointer.addClass('active');
   }
 
-  onDrag(event) {
-    this.log(event);
+  onPointerEnd(event) {
+    const pointer = this.getPointer(event);
   }
 
-  onPress(event) {
-    this.log(event);
+  onPointerMove(event) {
+    const pointer = this.getPointer(event);
   }
 
-  onTap(event) {
-    this.log(event);
+  onPointerStart(event) {
+    const pointer = this.getPointer(event);
   }
 }
