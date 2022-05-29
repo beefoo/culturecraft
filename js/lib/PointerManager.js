@@ -12,6 +12,7 @@ class PointerManager {
 
   init() {
     this.$target = $(this.options.target);
+    this.pointerIds = [];
     if (this.options.debug) {
       this.loadDebug();
     }
@@ -50,13 +51,18 @@ class PointerManager {
     if (!this.options.debug) return;
 
     const { isFirst, isFinal } = event;
-    const { pointerId } = event.srcEvent;
     const { x, y } = event.center;
     const eventType = event.type;
-    const pointerIndex = pointerId - 1;
+    let { pointerId } = event.srcEvent;
 
-    // console.log(event);
+    if (pointerId === undefined) pointerId = '0';
+    else pointerId = String(pointerId);
 
+    let pointerIndex = _.indexOf(this.pointerIds, pointerId);
+    if (pointerIndex < 0) {
+      this.pointerIds.push(pointerId);
+      pointerIndex = this.pointerIds.length - 1;
+    }
     if (pointerIndex >= this.options.maxPointers) return;
 
     const $debugPointer = this.$debugPointers[pointerIndex];
