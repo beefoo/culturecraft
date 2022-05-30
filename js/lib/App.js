@@ -12,5 +12,13 @@ class App {
       debug: this.options.pointerDebug !== undefined,
       target: this.options.el,
     });
+    this.render();
+  }
+
+  render() {
+    this.pointerManager.update();
+    this.pointerManager.render();
+
+    window.requestAnimationFrame(() => this.render());
   }
 }

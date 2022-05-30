@@ -4,7 +4,6 @@ class PointerManager {
       debug: false,
       debugTarget: '#pointer-debug',
       dragThreshold: 10, // move this distance before being considered a drag
-      maxPointers: 24,
       pressThreshold: 250, // time it takes to go from tap to press
       target: '#app',
     };
@@ -15,39 +14,35 @@ class PointerManager {
   init() {
     this.$target = $(this.options.target);
     this.pointers = {};
-    if (this.options.debug) {
-      this.loadDebug();
+    if (this.options.debug !== false) {
+      this.debug = true;
+      this.$debugTarget = $(this.options.debugTarget);
     }
     this.loadListeners();
   }
 
-  getPointer(event) {
+  getPointer(event, mustExist = false) {
+    const pointerId = this.constructor.getPointerId(event);
+
+    let pointer;
+    if (_.has(this.pointers, pointerId)) {
+      pointer = this.pointers[pointerId];
+    } else if (mustExist) {
+      return false;
+    } else {
+      pointer = new Pointer({ id: pointerId });
+    }
+
+    return pointer;
+  }
+
+  static getPointerId(event) {
     let { pointerId } = event;
 
     if (pointerId === undefined) pointerId = '0';
     else pointerId = String(pointerId);
 
-    let pointer;
-    if (_.has(this.pointers, pointerId)) {
-      pointer = this.pointers[pointerId];
-    } else {
-      pointer = new Pointer({ id: pointerId });
-    }
-
-    pointer.addEvent(event);
-
-    return pointer;
-  }
-
-  loadDebug() {
-    const $debug = $(this.options.debugTarget);
-    const $debugPointers = [];
-    _.times(this.options.maxPointers, (n) => {
-      const $debugPointer = $(`<div id="debug-pointer-${n + 1}" class="debug-pointer"></div>`);
-      $debug.append($debugPointer);
-      $debugPointers.push($debugPointer);
-    });
-    this.$debugPointers = $debugPointers;
+    return pointerId;
   }
 
   loadListeners() {
@@ -59,42 +54,36 @@ class PointerManager {
     target.addEventListener('pointermove', (e) => this.onPointerMove(e), false);
   }
 
-  log(event) {
-    if (!this.options.debug) return;
-
-    const { isFirst, isFinal } = event;
-    const { x, y } = event.center;
-    const eventType = event.type;
-    let { pointerId } = event.srcEvent;
-
-    if (pointerId === undefined) pointerId = '0';
-    else pointerId = String(pointerId);
-
-    let pointerIndex = _.indexOf(this.pointerIds, pointerId);
-    if (pointerIndex < 0) {
-      this.pointerIds.push(pointerId);
-      pointerIndex = this.pointerIds.length - 1;
-    }
-    if (pointerIndex >= this.options.maxPointers) return;
-
-    const $debugPointer = this.$debugPointers[pointerIndex];
-
-    $debugPointer.html(`<span class="pointer-id">${pointerId}</span><span class="event-type">${eventType}</span>`);
-    $debugPointer.css('transform', `translate3d(${x}px, ${y}px, 0)`);
-    $debugPointer.addClass('visible');
-    if (isFinal) $debugPointer.removeClass('active');
-    else $debugPointer.addClass('active');
+  log() {
+    _.each(this.pointers, (pointer, pointerId) => {
+      pointer.debug(this.$debugTarget);
+    });
   }
 
   onPointerEnd(event) {
     const pointer = this.getPointer(event);
+    pointer.addEvent(event);
   }
 
   onPointerMove(event) {
-    const pointer = this.getPointer(event);
+    const pointer = this.getPointer(event, mustExist = true);
+    if (pointer === false) return;
+    pointer.addEvent(event);
   }
 
   onPointerStart(event) {
     const pointer = this.getPointer(event);
+    pointer.addEvent(event);
+  }
+
+  render() {
+    if (this.debug === true) log();
+  }
+
+  update() {
+    const t = Date.now() / 1000.0;
+    _.each(this.pointers, (pointer, pointerId) => {
+      pointer.update(t);
+    });
   }
 }
