@@ -16,8 +16,10 @@ class App {
   }
 
   render() {
-    this.pointerManager.update();
-    this.pointerManager.render();
+    const now = Date.now();
+
+    this.pointerManager.update(now);
+    this.pointerManager.render(now);
 
     window.requestAnimationFrame(() => this.render());
   }

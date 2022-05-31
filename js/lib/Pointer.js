@@ -24,11 +24,11 @@ class Pointer {
   addEvent(event) {
     // console.log(event);
     const pointerEvent = _.pick(event, 'clientX', 'clientY', 'isPrimary', 'pointerType', 'type');
-    pointerEvent.time = Date.now() / 1000.0;
-    if (!this.firstEvent) this.firstEvent = pointerEvent;
+    pointerEvent.time = Date.now();
+    if (!this.firstEvent) this.firstEvent = _.clone(pointerEvent);
     else this.isFirst = false;
-    if (this.currentEvent !== false) this.previousEvent = this.currentEvent;
-    this.currentEvent = pointerEvent;
+    if (this.currentEvent !== false) this.previousEvent = _.clone(this.currentEvent);
+    this.currentEvent = _.clone(pointerEvent);
   }
 
   debug($target) {

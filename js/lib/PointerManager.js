@@ -3,8 +3,8 @@ class PointerManager {
     const defaults = {
       debug: false,
       debugTarget: '#pointer-debug',
-      dragThreshold: 10, // move this distance before being considered a drag
-      pressThreshold: 250, // time it takes to go from tap to press
+      dragDistanceThreshold: 10, // move this distance before being considered a drag
+      tapTimeThreshold: 250, // time it takes to go from tap to press/drag
       target: '#app',
     };
     this.options = _.extend({}, defaults, options);
@@ -46,12 +46,9 @@ class PointerManager {
   }
 
   loadListeners() {
-    const target = this.$target[0];
-
-    target.addEventListener('pointerdown', (e) => this.onPointerStart(e), false);
-    target.addEventListener('pointerup', (e) => this.onPointerEnd(e), false);
-    target.addEventListener('pointercancel', (e) => this.onPointerEnd(e), false);
-    target.addEventListener('pointermove', (e) => this.onPointerMove(e), false);
+    this.$target.on('pointerdown', (e) => this.onPointerStart(e));
+    this.$target.on('pointerup pointercancel pointerout', (e) => this.onPointerEnd(e));
+    this.$target.on('pointermove', (e) => this.onPointerMove(e));
   }
 
   log() {
@@ -76,14 +73,13 @@ class PointerManager {
     pointer.addEvent(event);
   }
 
-  render() {
+  render(now) {
     if (this.debug === true) log();
   }
 
-  update() {
-    const t = Date.now() / 1000.0;
+  update(now) {
     _.each(this.pointers, (pointer, pointerId) => {
-      pointer.update(t);
+      pointer.update(now);
     });
   }
 }
