@@ -3,6 +3,9 @@ html {
   color: white;
   background: black;
 }
+body {
+  overflow: hidden;
+}
 
 a {
   color: white;

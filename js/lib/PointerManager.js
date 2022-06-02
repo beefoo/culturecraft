@@ -3,8 +3,6 @@ class PointerManager {
     const defaults = {
       debug: false,
       debugTarget: '#pointer-debug',
-      dragDistanceThreshold: 10, // move this distance before being considered a drag
-      tapTimeThreshold: 250, // time it takes to go from tap to press/drag
       target: '#app',
     };
     this.options = _.extend({}, defaults, options);
@@ -21,16 +19,15 @@ class PointerManager {
     this.loadListeners();
   }
 
-  getPointer(event, mustExist = false) {
+  getPointer(event) {
     const pointerId = this.constructor.getPointerId(event);
 
     let pointer;
     if (_.has(this.pointers, pointerId)) {
       pointer = this.pointers[pointerId];
-    } else if (mustExist) {
-      return false;
     } else {
       pointer = new Pointer({ id: pointerId });
+      this.pointers[pointerId] = pointer;
     }
 
     return pointer;
@@ -59,22 +56,21 @@ class PointerManager {
 
   onPointerEnd(event) {
     const pointer = this.getPointer(event);
-    pointer.addEvent(event);
+    pointer.onEnd(event);
   }
 
   onPointerMove(event) {
-    const pointer = this.getPointer(event, mustExist = true);
-    if (pointer === false) return;
-    pointer.addEvent(event);
+    const pointer = this.getPointer(event);
+    pointer.onMove(event);
   }
 
   onPointerStart(event) {
     const pointer = this.getPointer(event);
-    pointer.addEvent(event);
+    pointer.onStart(event);
   }
 
   render(now) {
-    if (this.debug === true) log();
+    if (this.debug === true) this.log();
   }
 
   update(now) {
