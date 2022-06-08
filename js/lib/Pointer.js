@@ -2,6 +2,7 @@ class Pointer {
   constructor(options = {}) {
     const defaults = {
       id: '0',
+      staleThreshold: 1000, // after this much time, consider this pointer stale
       tapTimeThreshold: 250, // time it takes to go from tap to press/drag
     };
     this.options = _.extend({}, defaults, options);
@@ -10,20 +11,11 @@ class Pointer {
 
   init() {
     this.id = this.options.id;
-
-    this.isStarted = false;
-    this.isEnded = false;
-    this.isFirst = false;
-    this.firstEvent = false;
-    this.previousEvent = false;
-    this.currentEvent = false;
-    this.finalEvent = false;
-    this.isFinal = false;
-    this.isRemoved = false;
-    this.velocity = { x: 0, y: 0 };
-    this.acceleration = { x: 0, y: 0 };
-    this.type = 'none';
     this.$debug = false;
+    this.isRemoved = false;
+    this.isStale = false;
+
+    this.reset();
   }
 
   addEvent(event) {
@@ -35,7 +27,7 @@ class Pointer {
       this.isFirst = false;
     }
     if (this.isFinal) {
-      this.firstEvent = _.clone(pointerEvent);
+      this.finalEvent = _.clone(pointerEvent);
       this.isFinal = false;
     }
     if (this.currentEvent !== false) this.previousEvent = _.clone(this.currentEvent);
@@ -58,23 +50,28 @@ class Pointer {
   }
 
   onEnd(event) {
-    if (!this.isStarted) return;
+    if (!this.isStarted || this.isRemoved) return;
     this.isFinal = true;
     this.isEnded = true;
     this.addEvent(event);
     this.isStarted = false;
+
+    const timeSinceFirstEvent = this.finalEvent.time - this.firstEvent.time;
+    if (timeSinceFirstEvent <= this.options.tapTimeThreshold) {
+      this.type = 'tap';
+    }
   }
 
   onMove(event) {
-    if (!this.isStarted) return;
+    if (!this.isStarted || this.isRemoved) return;
     this.addEvent(event);
   }
 
   onStart(event) {
+    if (this.isRemoved) return;
+    this.reset();
     this.isStarted = true;
     this.isFirst = true;
-    this.isFinal = false;
-    this.isEnded = false;
     this.addEvent(event);
   }
 
@@ -85,14 +82,26 @@ class Pointer {
     this.isRemoved = true;
   }
 
+  reset() {
+    this.type = 'none';
+
+    this.isStarted = false;
+    this.isEnded = false;
+    this.isFirst = false;
+    this.isFinal = false;
+
+    this.firstEvent = false;
+    this.previousEvent = false;
+    this.currentEvent = false;
+    this.finalEvent = false;
+  }
+
   update(now) {
-    if (this.isStarted === false) return;
+    if (this.isStarted === false || this.isRemoved) return;
 
     const timeSinceFirstEvent = now - this.firstEvent.time;
     if (timeSinceFirstEvent > this.options.tapTimeThreshold) {
       this.type = 'drag';
-    } else if (this.isFinal) {
-      this.type = 'tap';
     }
   }
 }

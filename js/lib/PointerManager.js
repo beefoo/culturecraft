@@ -10,6 +10,7 @@ class PointerManager {
   }
 
   init() {
+    this.firstTouch = false;
     this.$target = $(this.options.target);
     this.pointers = {};
     if (this.options.debug !== false) {
@@ -65,15 +66,17 @@ class PointerManager {
   }
 
   onPointerStart(event) {
+    if (!this.firstTouch) this.firstTouch = true;
     const pointer = this.getPointer(event);
     pointer.onStart(event);
   }
 
   render(now) {
-    if (this.debug === true) this.log();
+    if (this.debug === true && this.firstTouch) this.log();
   }
 
   update(now) {
+    if (!this.firstTouch) return;
     _.each(this.pointers, (pointer, pointerId) => {
       pointer.update(now);
     });
