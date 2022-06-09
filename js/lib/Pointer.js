@@ -2,7 +2,7 @@ class Pointer {
   constructor(options = {}) {
     const defaults = {
       id: '0',
-      staleThreshold: 1000, // after this much time, consider this pointer stale
+      removeThreshold: 1000, // after this much time after end event and no start, remove
       tapTimeThreshold: 250, // time it takes to go from tap to press/drag
     };
     this.options = _.extend({}, defaults, options);
@@ -13,7 +13,7 @@ class Pointer {
     this.id = this.options.id;
     this.$debug = false;
     this.isRemoved = false;
-    this.isStale = false;
+    this.pointerType = false;
 
     this.reset();
   }
@@ -25,6 +25,7 @@ class Pointer {
     if (this.isFirst) {
       this.firstEvent = _.clone(pointerEvent);
       this.isFirst = false;
+      this.pointerType = pointerEvent.pointerType;
     }
     if (this.isFinal) {
       this.finalEvent = _.clone(pointerEvent);
@@ -68,6 +69,7 @@ class Pointer {
   }
 
   onStart(event) {
+    // console.log(event);
     if (this.isRemoved) return;
     this.reset();
     this.isStarted = true;
@@ -97,7 +99,17 @@ class Pointer {
   }
 
   update(now) {
-    if (this.isStarted === false || this.isRemoved) return;
+    if (this.isRemoved) return;
+
+    if (this.isEnded && this.pointerType !== 'mouse') {
+      const timeSinceLastEnded = now - this.finalEvent.time;
+      if (timeSinceLastEnded > this.options.removeThreshold) {
+        this.remove();
+        return;
+      }
+    }
+
+    if (this.isStarted === false) return;
 
     const timeSinceFirstEvent = now - this.firstEvent.time;
     if (timeSinceFirstEvent > this.options.tapTimeThreshold) {

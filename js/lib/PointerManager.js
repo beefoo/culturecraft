@@ -77,8 +77,15 @@ class PointerManager {
 
   update(now) {
     if (!this.firstTouch) return;
+    const pointersToRemove = [];
+
     _.each(this.pointers, (pointer, pointerId) => {
       pointer.update(now);
+      if (pointer.isRemoved) pointersToRemove.push(pointerId);
     });
+
+    if (pointersToRemove.length > 0) {
+      this.pointers = _.omit(this.pointers, pointersToRemove);
+    }
   }
 }
