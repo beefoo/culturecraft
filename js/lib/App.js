@@ -8,6 +8,7 @@ class App {
   }
 
   init() {
+    this.brushManager = new BrushManager();
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
       target: this.options.el,
@@ -19,7 +20,8 @@ class App {
     const now = Date.now();
 
     this.pointerManager.update(now);
-    this.pointerManager.render(now);
+    if (this.options.pointerDebug) this.pointerManager.render(now);
+    this.brushManager.render(now);
 
     window.requestAnimationFrame(() => this.render());
   }
