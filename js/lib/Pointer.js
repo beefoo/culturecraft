@@ -2,6 +2,10 @@ class Pointer {
   constructor(options = {}) {
     const defaults = {
       id: '0',
+      onDrag: (pointer) => {},
+      onDragEnd: (pointer) => {},
+      onDragStart: (pointer) => {},
+      onTap: (pointer) => {},
       removeThreshold: 1000, // after this much time after end event and no start, remove
       tapTimeThreshold: 250, // time it takes to go from tap to press/drag
     };
@@ -50,6 +54,19 @@ class Pointer {
     else this.$debug.removeClass('active');
   }
 
+  onDrag() {
+    this.options.onDrag(this);
+  }
+
+  onDragEnd() {
+    this.options.onDragEnd(this);
+  }
+
+  onDragStart() {
+    this.type = 'drag';
+    this.options.onDragStart(this);
+  }
+
   onEnd(event) {
     if (!this.isStarted || this.isRemoved) return;
     this.isFinal = true;
@@ -59,13 +76,16 @@ class Pointer {
 
     const timeSinceFirstEvent = this.finalEvent.time - this.firstEvent.time;
     if (timeSinceFirstEvent <= this.options.tapTimeThreshold) {
-      this.type = 'tap';
+      this.onTap();
+    } else if (this.type === 'drag') {
+      this.onDragEnd();
     }
   }
 
   onMove(event) {
     if (!this.isStarted || this.isRemoved) return;
     this.addEvent(event);
+    if (this.type === 'drag') this.onDrag();
   }
 
   onStart(event) {
@@ -75,6 +95,11 @@ class Pointer {
     this.isStarted = true;
     this.isFirst = true;
     this.addEvent(event);
+  }
+
+  onTap() {
+    this.type = 'tap';
+    this.options.onTap(this);
   }
 
   remove() {
@@ -109,11 +134,11 @@ class Pointer {
       }
     }
 
-    if (this.isStarted === false) return;
+    if (this.isStarted === false || this.type === 'drag') return;
 
     const timeSinceFirstEvent = now - this.firstEvent.time;
     if (timeSinceFirstEvent > this.options.tapTimeThreshold) {
-      this.type = 'drag';
+      this.onDragStart();
     }
   }
 }

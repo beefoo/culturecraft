@@ -3,6 +3,10 @@ class PointerManager {
     const defaults = {
       debug: false,
       debugTarget: '#pointer-debug',
+      onDrag: (pointer) => {},
+      onDragEnd: (pointer) => {},
+      onDragStart: (pointer) => {},
+      onTap: (pointer) => {},
       target: '#app',
     };
     this.options = _.extend({}, defaults, options);
@@ -27,7 +31,14 @@ class PointerManager {
     if (_.has(this.pointers, pointerId)) {
       pointer = this.pointers[pointerId];
     } else {
-      pointer = new Pointer({ id: pointerId });
+      const options = {
+        id: pointerId,
+        onDrag: this.options.onDrag,
+        onDragEnd: this.options.onDragEnd,
+        onDragStart: this.options.onDragStart,
+        onTap: this.options.onTap,
+      };
+      pointer = new Pointer(options);
       this.pointers[pointerId] = pointer;
     }
 
