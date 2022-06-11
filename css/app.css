@@ -23,7 +23,8 @@ li {
 }
 
 .app,
-.debug {
+.debug,
+.app-data {
   position: absolute;
   width: 100%;
   height: 100%;

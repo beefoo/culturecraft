@@ -8,6 +8,9 @@ class App {
   }
 
   init() {
+    this.canvas = new Canvas({
+      el: this.options.el,
+    });
     this.brushManager = new BrushManager();
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
