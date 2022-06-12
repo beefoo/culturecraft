@@ -1,13 +1,14 @@
 class Pointer {
   constructor(options = {}) {
     const defaults = {
+      dragDistanceThreshold: 5, // move pixels before considered a drag
       id: '0',
       onDrag: (pointer) => {},
       onDragEnd: (pointer) => {},
       onDragStart: (pointer) => {},
       onTap: (pointer) => {},
       removeThreshold: 1000, // after this much time after end event and no start, remove
-      tapTimeThreshold: 250, // time it takes to go from tap to press/drag
+      tapTimeThreshold: 200, // time it takes to go from tap to press/drag
     };
     this.options = _.extend({}, defaults, options);
     this.init();
@@ -18,6 +19,8 @@ class Pointer {
     this.$debug = false;
     this.isRemoved = false;
     this.pointerType = false;
+    this.x = -999;
+    this.y = -999;
 
     this.reset();
   }
@@ -37,9 +40,12 @@ class Pointer {
     }
     if (this.currentEvent !== false) this.previousEvent = _.clone(this.currentEvent);
     this.currentEvent = _.clone(pointerEvent);
+    this.x = this.currentEvent.clientX;
+    this.y = this.currentEvent.clientY;
   }
 
   debug($target) {
+    if (this.x < 0 || this.y < 0) return;
     if (this.$debug === false) {
       this.$debug = $(`#debug-pointer-${this.id}`);
       if (this.$debug.length < 1) {
@@ -137,7 +143,13 @@ class Pointer {
     if (this.isStarted === false || this.type === 'drag') return;
 
     const timeSinceFirstEvent = now - this.firstEvent.time;
-    if (timeSinceFirstEvent > this.options.tapTimeThreshold) {
+    const x1 = this.firstEvent.clientX;
+    const y1 = this.firstEvent.clientY;
+    const x2 = this.currentEvent.clientX;
+    const y2 = this.currentEvent.clientY;
+    const distanceSinceFirstEvent = MathUtil.distance(x1, y1, x2, y2);
+    if (timeSinceFirstEvent > this.options.tapTimeThreshold
+        || distanceSinceFirstEvent >= this.options.dragDistanceThreshold) {
       this.onDragStart();
     }
   }

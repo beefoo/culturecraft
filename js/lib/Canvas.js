@@ -21,6 +21,16 @@ class Canvas {
       height: this.height,
       resizeTo: this.$el[0],
     });
+    this.$el.append(this.app.view);
+  }
+
+  debug(x, y) {
+    if (!this.debugGraphics) {
+      this.debugGraphics = new PIXI.Graphics();
+      this.app.stage.addChild(this.debugGraphics);
+      this.debugGraphics.beginFill(0x0ab54c, 0.5);
+    }
+    this.debugGraphics.drawCircle(x, y, 4);
   }
 
   onResize() {

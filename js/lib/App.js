@@ -16,12 +16,6 @@ class App {
     });
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
-      onDrag: (pointer) => {
-        this.onDrag(pointer);
-      },
-      onDragEnd: (pointer) => {
-        this.onDragEnd(pointer);
-      },
       onDragStart: (pointer) => {
         this.onDragStart(pointer);
       },
@@ -31,14 +25,6 @@ class App {
       target: this.options.el,
     });
     this.render();
-  }
-
-  onDrag(pointer) {
-    this.brushManager.onDrag(pointer);
-  }
-
-  onDragEnd(pointer) {
-    this.brushManager.onDragEnd(pointer);
   }
 
   onDragStart(pointer) {

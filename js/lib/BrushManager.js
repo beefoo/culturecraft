@@ -9,54 +9,37 @@ class BrushManager {
 
   init() {
     this.canvas = this.options.canvas;
-    this.brushes = {};
+    this.brushes = [];
   }
 
-  getBrushFromPointer(pointer, resetPointer = false) {
-    let brush = _.get(this.brushes, pointer.id);
-    if (brush === undefined) {
-      brush = new Brush({
-        canvas: this.canvas,
-        pointer,
-      });
-      this.brushes[pointer.id] = brush;
-    } else if (resetPointer) {
-      brush.pointer = pointer;
-      this.brushes[pointer.id] = pointer;
-    }
+  addBrushFromPointer(pointer, action) {
+    const brush = new Brush({
+      action,
+      canvas: this.canvas,
+      pointer,
+    });
+    this.brushes.push(brush);
     return brush;
   }
 
-  onDrag(pointer) {
-    const brush = this.getBrushFromPointer(pointer);
-    brush.onDrag();
-  }
-
-  onDragEnd(pointer) {
-    const brush = this.getBrushFromPointer(pointer);
-    brush.onDragEnd();
-  }
-
   onDragStart(pointer) {
-    const brush = this.getBrushFromPointer(pointer, true);
-    brush.onDragStart();
+    const brush = this.addBrushFromPointer(pointer, 'drag');
   }
 
   onTap(pointer) {
-    const brush = this.getBrushFromPointer(pointer, true);
-    brush.onTap();
+    const brush = this.addBrushFromPointer(pointer, 'tap');
   }
 
   render(now) {
     const brushesToRemove = [];
 
-    _.each(this.brushes, (brush, id) => {
+    _.each(this.brushes, (brush, index) => {
       brush.render(now);
-      if (brush.isRemoved) brushesToRemove.push(id);
+      if (brush.isRemoved) brushesToRemove.push(index);
     });
 
     if (brushesToRemove.length > 0) {
-      this.brushes = _.omit(this.brushes, brushesToRemove);
+      this.brushes = _.reject(this.brushes, (brush, index) => brushesToRemove.indexOf(index) >= 0);
     }
   }
 }

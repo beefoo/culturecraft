@@ -1,6 +1,7 @@
 class Brush {
   constructor(options = {}) {
     const defaults = {
+      action: 'drag',
       canvas: false,
       pointer: false,
     };
@@ -9,37 +10,13 @@ class Brush {
   }
 
   init() {
+    this.action = this.options.action;
     this.canvas = this.options.canvas;
     this.pointer = this.options.pointer;
     this.isRemoved = false;
-  }
-
-  onDrag() {
-    if (this.canvas === false || this.pointer === false || this.isRemoved) return;
-
-    const { canvas, pointer } = this;
-  }
-
-  onDragEnd() {
-    if (this.canvas === false || this.pointer === false || this.isRemoved) return;
-
-    const { canvas, pointer } = this;
-
-    this.remove();
-  }
-
-  onDragStart() {
-    if (this.canvas === false || this.pointer === false || this.isRemoved) return;
-
-    const { canvas, pointer } = this;
-  }
-
-  onTap() {
-    if (this.canvas === false || this.pointer === false || this.isRemoved) return;
-
-    const { canvas, pointer } = this;
-
-    this.remove();
+    this.timeCreated = Date.now();
+    this.x = this.pointer.x;
+    this.y = this.pointer.y;
   }
 
   remove() {
@@ -51,6 +28,16 @@ class Brush {
   render(now) {
     if (this.canvas === false || this.pointer === false || this.isRemoved) return;
 
-    const { canvas, pointer } = this;
+    const { action, canvas, pointer } = this;
+    const { x, y } = pointer;
+    const distance = MathUtil.distance(x, y, this.x, this.y);
+    this.x = x;
+    this.y = y;
+
+    if (distance < 0.1 && this.action !== 'tap') return;
+
+    canvas.debug(x, y);
+
+    if (this.action === 'tap' || pointer.isEnded) this.remove();
   }
 }

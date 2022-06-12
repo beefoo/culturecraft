@@ -9,6 +9,12 @@ class MathUtil {
     return maxCheckValue;
   }
 
+  static distance(x1, y1, x2, y2) {
+    const y = x2 - x1;
+    const x = y2 - y1;
+    return Math.sqrt(x * x + y * y);
+  }
+
   static ease(n) {
     return (Math.sin((n + 1.5) * Math.PI) + 1.0) / 2.0;
   }
