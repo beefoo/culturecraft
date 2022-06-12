@@ -11,7 +11,9 @@ class App {
     this.canvas = new Canvas({
       el: this.options.el,
     });
-    this.brushManager = new BrushManager();
+    this.brushManager = new BrushManager({
+      canvas: this.canvas,
+    });
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
       onDrag: (pointer) => {
