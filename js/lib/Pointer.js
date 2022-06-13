@@ -1,14 +1,14 @@
 class Pointer {
   constructor(options = {}) {
     const defaults = {
-      dragDistanceThreshold: 5, // move pixels before considered a drag
+      dragDistanceThreshold: 10, // move pixels before considered a drag
       id: '0',
       onDrag: (pointer) => {},
       onDragEnd: (pointer) => {},
       onDragStart: (pointer) => {},
       onTap: (pointer) => {},
       removeThreshold: 1000, // after this much time after end event and no start, remove
-      tapTimeThreshold: 200, // time it takes to go from tap to press/drag
+      tapTimeThreshold: 125, // time it takes to go from tap to press/drag
     };
     this.options = _.extend({}, defaults, options);
     this.init();

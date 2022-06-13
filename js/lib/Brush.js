@@ -34,7 +34,10 @@ class Brush {
     this.x = x;
     this.y = y;
 
-    if (distance < 0.1 && this.action !== 'tap') return;
+    if (distance < 0.1 && this.action === 'drag') {
+      if (pointer.isEnded) this.remove();
+      return;
+    }
 
     canvas.debug(x, y);
 
