@@ -2,12 +2,33 @@ class App {
   constructor(options = {}) {
     const defaults = {
       el: '#app',
+      metadataUrl: 'data/metadata.json',
+      texturePath: 'img/texture/*.jpg',
     };
     const q = StringUtil.queryParams();
     this.options = _.extend({}, defaults, options, q);
   }
 
   init() {
+    const dataReady = this.loadData();
+
+    $.when(dataReady).then(() => this.loadMain());
+  }
+
+  loadData() {
+    const promise = $.Deferred();
+
+    $.getJSON(this.options.metadataUrl, (data) => {
+      const { cols } = data;
+      this.dataCount = data.rows.length;
+      this.metadata = _.map(data.rows, (row, index) => _.object(cols, row));
+      promise.resolve();
+    });
+
+    return promise;
+  }
+
+  loadMain() {
     this.canvas = new Canvas({
       el: this.options.el,
     });
@@ -24,6 +45,12 @@ class App {
       },
       target: this.options.el,
     });
+    const { texturePath } = this.options;
+    const textureUrls = _.map(this.metadata, (row, index) => texturePath.replace('*', String(index)));
+    this.textureManager = new TextureManager({
+      urls: textureUrls,
+    });
+    this.textureManager.loadTextureIndex(0);
     this.render();
   }
 
