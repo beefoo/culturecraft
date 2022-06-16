@@ -22,6 +22,7 @@ class Texture {
 
     this.loadedTexture.destroy(true);
     console.log(`Destroyed ${this.url}`);
+    this.loadedTexture = false;
   }
 
   isValid() {
