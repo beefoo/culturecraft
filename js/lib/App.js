@@ -32,8 +32,16 @@ class App {
     this.canvas = new Canvas({
       el: this.options.el,
     });
+    const { texturePath } = this.options;
+    const textureUrls = _.map(this.metadata, (row, index) => texturePath.replace('*', String(index)));
+    this.textureManager = new TextureManager({
+      urls: textureUrls,
+    });
+    this.textureManager.loadTextureIndex(0);
+    this.textureManager.selectTextureIndex(0);
     this.brushManager = new BrushManager({
       canvas: this.canvas,
+      textureManager: this.textureManager,
     });
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
@@ -45,12 +53,6 @@ class App {
       },
       target: this.options.el,
     });
-    const { texturePath } = this.options;
-    const textureUrls = _.map(this.metadata, (row, index) => texturePath.replace('*', String(index)));
-    this.textureManager = new TextureManager({
-      urls: textureUrls,
-    });
-    this.textureManager.loadTextureIndex(0);
     this.render();
   }
 

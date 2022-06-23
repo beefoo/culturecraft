@@ -24,6 +24,10 @@ class Canvas {
     this.$el.append(this.app.view);
   }
 
+  addChild(child) {
+    this.app.stage.addChild(child);
+  }
+
   debug(x, y) {
     if (!this.debugGraphics) {
       this.debugGraphics = new PIXI.Graphics();

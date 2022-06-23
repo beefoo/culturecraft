@@ -11,6 +11,7 @@ class TextureManager {
     this.textures = {};
     this.urls = this.options.urls;
     this.urlCount = this.urls.length;
+    this.currentTexture = false;
   }
 
   loadTexture(url) {
@@ -34,6 +35,20 @@ class TextureManager {
 
     const url = this.urls[index];
     this.loadTexture(url);
+  }
+
+  selectTexture(url) {
+    if (_.has(this.textures, url)) this.currentTexture = this.textures[url];
+    else this.currentTexture = false;
+  }
+
+  selectTextureIndex(index) {
+    if (index >= this.urlCount) {
+      this.currentTexture = false;
+      return;
+    }
+    const url = this.urls[index];
+    this.selectTexture(url);
   }
 
   unloadTexture(url) {
