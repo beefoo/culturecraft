@@ -23,33 +23,4 @@ class TextureManager {
     const url = this.urls[index];
     this.loadTexture(url);
   }
-
-  selectTexture(url) {
-    if (_.has(this.textures, url)) this.currentTexture = this.textures[url];
-    else this.currentTexture = false;
-  }
-
-  selectTextureIndex(index) {
-    if (index >= this.urlCount) {
-      this.currentTexture = false;
-      return;
-    }
-    const url = this.urls[index];
-    this.selectTexture(url);
-  }
-
-  unloadTexture(url) {
-    if (!_.has(this.textures, url)) return;
-
-    const texture = this.textures[url];
-    texture.destroy();
-    this.textures = _.omit(this.textures, url);
-  }
-
-  unloadTextureIndex(index) {
-    if (index >= this.urlCount) return;
-
-    const url = this.urls[index];
-    this.unloadTexture(url);
-  }
 }
