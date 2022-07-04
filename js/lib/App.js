@@ -30,7 +30,7 @@ class App {
 
   loadMain() {
     this.canvas = new Canvas({
-      el: this.options.el,
+      parent: this.options.el,
     });
     const { texturePath } = this.options;
     const textureUrls = _.map(this.metadata, (row, index) => texturePath.replace('*', String(index)));

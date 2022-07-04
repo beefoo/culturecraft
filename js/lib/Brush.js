@@ -4,7 +4,10 @@ class Brush {
       action: 'drag',
       canvas: false,
       debug: false,
+      distanceThreshold: 10,
       pointer: false,
+      spriteW: 512,
+      spriteH: 512,
       texture: false,
     };
     this.options = _.extend({}, defaults, options);
@@ -20,30 +23,36 @@ class Brush {
     this.timeCreated = Date.now();
     this.x = this.pointer.x;
     this.y = this.pointer.y;
-    this.container = new PIXI.Container();
-    this.particles = [];
-    this.canvas.addChild(this.container);
+
+    this.$spriteContainer = $('#hidden-layer');
+    const $spriteCanvas = $('<canvas></canvas>');
+    const [spriteCanvas] = $spriteCanvas;
+    spriteCanvas.width = this.options.spriteW;
+    spriteCanvas.height = this.options.spriteH;
+    this.spriteCanvas = spriteCanvas;
+    this.$spriteContainer.append(this.spriteCanvas);
+    this.spriteCtx = spriteCanvas.getContext('2d');
   }
 
   remove() {
+    this.$spriteContainer[0].removeChild(this.spriteCanvas);
     this.canvas = false;
     this.pointer = false;
     this.isRemoved = true;
-    _.each(this.particles, (particle) => particle.remove());
   }
 
   render(now) {
     if (this.canvas === false || this.pointer === false || this.isRemoved) return;
 
     const {
-      action, canvas, pointer, texture,
+      action, canvas, pointer, spriteCtx, texture,
     } = this;
     const { x, y } = pointer;
     const distance = MathUtil.distance(x, y, this.x, this.y);
     this.x = x;
     this.y = y;
 
-    if (distance < 0.1 && this.action === 'drag') {
+    if (distance < this.options.distanceThreshold && action === 'drag') {
       if (pointer.isEnded) this.remove();
       return;
     }
@@ -51,15 +60,15 @@ class Brush {
     if (this.options.debug) canvas.debug(x, y);
     else {
       const particle = new Particle({
-        parent: this.container,
-        texture: this.texture,
+        mainCtx: canvas.ctx,
+        spriteCtx,
+        texture,
         x,
         y,
       });
       particle.render();
-      this.particles.push(particle);
     }
 
-    if (this.action === 'tap' || pointer.isEnded) this.remove();
+    if (action === 'tap' || pointer.isEnded) this.remove();
   }
 }

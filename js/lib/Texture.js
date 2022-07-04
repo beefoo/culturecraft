@@ -20,13 +20,12 @@ class Texture {
 
     if (this.loadedTexture === false) return;
 
-    this.loadedTexture.destroy(true);
     console.log(`Destroyed ${this.url}`);
     this.loadedTexture = false;
   }
 
   isValid() {
-    return this.loadedTexture !== false && this.loadedTexture.valid && this.loadedTexture.width > 0;
+    return this.loadedTexture !== false && this.loadedTexture.width > 0;
   }
 
   load() {
@@ -39,7 +38,23 @@ class Texture {
       console.log(`${url} already destroyed`);
       return;
     }
-    this.loadedTexture = PIXI.Texture.from(url);
-    this.isLoaded = true;
+
+    const whenLoaded = new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.crossOrigin = 'anonymous';
+      image.src = url;
+      if (image.complete) resolve(image);
+    });
+
+    whenLoaded
+      .then((image) => {
+        if (!this.isDestroyed && !this.isLoaded) {
+          this.loadedTexture = image;
+          this.isLoaded = true;
+        }
+      })
+      .catch(() => console.log(`Failed to load texture ${url}`));
   }
 }
