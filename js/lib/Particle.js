@@ -43,7 +43,7 @@ class Particle {
     if (this.isDrawing) return;
     this.isDrawing = true;
 
-    const textureImage = texture.loadedTexture;
+    const textureImage = texture.loadedImage;
     const spriteW = spriteCtx.canvas.width;
     const spriteH = spriteCtx.canvas.height;
     const spriteHW = spriteW / 2;

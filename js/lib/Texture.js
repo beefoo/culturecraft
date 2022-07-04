@@ -1,41 +1,34 @@
 class Texture {
   constructor(options = {}) {
-    const defaults = {
-      url: false,
-    };
+    const defaults = {};
     this.options = _.extend({}, defaults, options);
     this.init();
   }
 
   init() {
-    this.isLoaded = false;
-    this.isDestroyed = false;
-    this.loadedTexture = false;
-    this.url = this.options.url;
+    this.loadedImage = false;
+    this.currentUrl = false;
+    this.loadedUrl = false;
   }
 
   destroy() {
-    this.isDestroyed = true;
-    this.isLoaded = false;
-
-    if (this.loadedTexture === false) return;
-
-    console.log(`Destroyed ${this.url}`);
-    this.loadedTexture = false;
+    this.currentUrl = false;
+    this.loadedUrl = false;
+    this.loadedImage = false;
   }
 
   isValid() {
-    return this.loadedTexture !== false && this.loadedTexture.width > 0;
+    return this.loadedImage !== false
+            && this.loadedImage
+            && this.loadedImage.width
+            && this.loadedImage.width > 0;
   }
 
-  load() {
-    const { url } = this;
-    if (this.isLoaded) {
+  load(url) {
+    this.currentUrl = url;
+
+    if (this.loadedUrl === url) {
       console.log(`${url} already loaded`);
-      return;
-    }
-    if (this.isDestroyed) {
-      console.log(`${url} already destroyed`);
       return;
     }
 
@@ -50,9 +43,9 @@ class Texture {
 
     whenLoaded
       .then((image) => {
-        if (!this.isDestroyed && !this.isLoaded) {
-          this.loadedTexture = image;
-          this.isLoaded = true;
+        if (this.currentUrl === url) {
+          this.loadedImage = image;
+          this.loadedUrl = url;
         }
       })
       .catch(() => console.log(`Failed to load texture ${url}`));

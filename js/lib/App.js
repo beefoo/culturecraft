@@ -38,7 +38,6 @@ class App {
       urls: textureUrls,
     });
     this.textureManager.loadTextureIndex(0);
-    this.textureManager.selectTextureIndex(0);
     this.brushManager = new BrushManager({
       canvas: this.canvas,
       textureManager: this.textureManager,

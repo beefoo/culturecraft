@@ -8,26 +8,13 @@ class TextureManager {
   }
 
   init() {
-    this.textures = {};
     this.urls = this.options.urls;
     this.urlCount = this.urls.length;
-    this.currentTexture = false;
+    this.currentTexture = new Texture();
   }
 
   loadTexture(url) {
-    let texture;
-
-    if (_.has(this.textures, url)) {
-      texture = this.textures[url];
-    } else {
-      texture = new Texture({
-        url,
-      });
-      this.textures[url] = texture;
-      texture.load();
-    }
-
-    return texture;
+    this.currentTexture.load(url);
   }
 
   loadTextureIndex(index) {
