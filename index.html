@@ -24,10 +24,29 @@
 
 <body>
 
+  <h1 class="visually-hidden">Culture Craft</h1>
   <div id="hidden-layer" class="visually-hidden"></div>
   <div id="pointer-debug" class="debug"></div>
 
-  <div id="app" class="app touchable"></div>
+  <div class="wrapper">
+
+    <main id="app" class="app touchable"></main>
+
+    <nav class="nav main-nav">
+      <ul class="menu">
+        <li>
+          <button class="settings-button"><span class="visually-hidden">Settings</span>⛭</button>
+        </li>
+        <li class="item-fill">
+          <button class="item-button"><img src="img/thumb/0.jpg" alt="Thumbnail image of Cystoseira granulata" /> Cystoseira granulata from NYPL</button>
+        </li>
+        <li>
+          <button class="about-button"><span class="visually-hidden">About Culture Craft</span>?</button>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
 
   <script src="js/vendor/jquery-3.6.0.min.js"></script>
   <script src="js/vendor/underscore-umd-1.13.2.min.js"></script>
