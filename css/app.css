@@ -66,8 +66,17 @@ ul.menu {
   display: flex;
   align-items: stretch;
 }
+ul.menu li {
+  border-left: 1px solid rgba(0, 0, 0, 0.33);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+}
+ul.menu li:first-child {
+  border-left: 0;
+}
 ul.menu li.item-fill {
   flex-grow: 1;
+  max-width: 100%;
+  min-width: 0;
 }
 ul.menu button {
   height: 60px;
@@ -75,15 +84,33 @@ ul.menu button {
   border: none;
   background: none;
   padding: 0 12px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  color: rgb(27, 19, 12, 0.9);
 }
 ul.menu button img {
   display: inline-block;
   width: 40px;
   height: 40px;
   margin-right: 4px;
+  margin-top: -4px;
   vertical-align: middle;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.667);
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgb(27, 19, 12, 0.5);
+  border-left: 1px solid rgb(27, 19, 12, 0.5);
+}
+ul.menu button.menu-button {
+  font-weight: bold;
+  font-size: 1.667rem;
+}
+ul.menu button.item-button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .debug-pointer {
