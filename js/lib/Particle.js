@@ -3,7 +3,7 @@ class Particle {
     const defaults = {
       mainCtx: false,
       spriteCtx: false,
-      texture: false,
+      textureManager: false,
       x: 0,
       y: 0,
     };
@@ -16,11 +16,11 @@ class Particle {
     this.isRemoved = false;
     if (this.options.mainCtx === false
       || this.options.spriteCtx === false
-      || this.options.texture === false) return;
+      || this.options.textureManager === false) return;
 
     this.mainCtx = this.options.mainCtx;
     this.spriteCtx = this.options.spriteCtx;
-    this.texture = this.options.texture;
+    this.texture = this.options.textureManager.currentTexture;
     this.x = this.options.x;
     this.y = this.options.y;
 

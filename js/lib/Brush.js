@@ -8,7 +8,7 @@ class Brush {
       pointer: false,
       spriteW: 512,
       spriteH: 512,
-      texture: false,
+      textureManager: false,
     };
     this.options = _.extend({}, defaults, options);
     this.init();
@@ -18,7 +18,7 @@ class Brush {
     this.action = this.options.action;
     this.canvas = this.options.canvas;
     this.pointer = this.options.pointer;
-    this.texture = this.options.texture;
+    this.textureManager = this.options.textureManager;
     this.isRemoved = false;
     this.timeCreated = Date.now();
     this.x = this.pointer.x;
@@ -45,7 +45,7 @@ class Brush {
     if (this.canvas === false || this.pointer === false || this.isRemoved) return;
 
     const {
-      action, canvas, pointer, spriteCtx, texture,
+      action, canvas, pointer, spriteCtx, textureManager,
     } = this;
     const { x, y } = pointer;
     const distance = MathUtil.distance(x, y, this.x, this.y);
@@ -62,7 +62,7 @@ class Brush {
       const particle = new Particle({
         mainCtx: canvas.ctx,
         spriteCtx,
-        texture,
+        textureManager,
         x,
         y,
       });

@@ -19,7 +19,7 @@ class BrushManager {
       action,
       canvas: this.canvas,
       pointer,
-      texture: this.textureManager.currentTexture,
+      textureManager: this.textureManager,
     });
     this.brushes.push(brush);
     return brush;

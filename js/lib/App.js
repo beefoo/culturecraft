@@ -37,13 +37,16 @@ class App {
     this.textureManager = new TextureManager({
       urls: textureUrls,
     });
-    this.textureManager.loadTextureIndex(0);
+    this.textureManager.loadRandomTexture();
     this.brushManager = new BrushManager({
       canvas: this.canvas,
       textureManager: this.textureManager,
     });
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
+      onDragEnd: (pointer) => {
+        this.onDragEnd(pointer);
+      },
       onDragStart: (pointer) => {
         this.onDragStart(pointer);
       },
@@ -53,6 +56,12 @@ class App {
       target: this.options.el,
     });
     this.render();
+  }
+
+  onDragEnd(pointer) {
+    if (pointer.isPrimary === true) {
+      this.textureManager.loadRandomTexture();
+    }
   }
 
   onDragStart(pointer) {

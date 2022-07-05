@@ -21,13 +21,14 @@ class Pointer {
     this.pointerType = false;
     this.x = -999;
     this.y = -999;
+    this.isPrimary = false;
 
     this.reset();
   }
 
   addEvent(event) {
     // console.log(event);
-    const pointerEvent = _.pick(event, 'clientX', 'clientY', 'isPrimary', 'pointerType', 'type');
+    const pointerEvent = _.pick(event, 'clientX', 'clientY', 'pointerType', 'type');
     pointerEvent.time = Date.now();
     if (this.isFirst) {
       this.firstEvent = _.clone(pointerEvent);
@@ -39,6 +40,7 @@ class Pointer {
       this.isFinal = false;
     }
     if (this.currentEvent !== false) this.previousEvent = _.clone(this.currentEvent);
+    this.isPrimary = (event.originalEvent && event.originalEvent.isPrimary) || pointerEvent.pointerType === 'mouse';
     this.currentEvent = _.clone(pointerEvent);
     this.x = this.currentEvent.clientX;
     this.y = this.currentEvent.clientY;
