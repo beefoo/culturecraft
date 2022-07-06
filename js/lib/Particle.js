@@ -1,7 +1,10 @@
 class Particle {
   constructor(options = {}) {
     const defaults = {
+      action: 'drag',
       mainCtx: false,
+      prevX: 0,
+      prevY: 0,
       spriteCtx: false,
       textureManager: false,
       x: 0,

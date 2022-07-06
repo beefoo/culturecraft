@@ -21,8 +21,8 @@ class Brush {
     this.textureManager = this.options.textureManager;
     this.isRemoved = false;
     this.timeCreated = Date.now();
-    this.x = this.pointer.x;
-    this.y = this.pointer.y;
+    this.prevX = this.pointer.x;
+    this.prevY = this.pointer.y;
 
     this.$spriteContainer = $('#hidden-layer');
     const $spriteCanvas = $('<canvas></canvas>');
@@ -47,10 +47,9 @@ class Brush {
     const {
       action, canvas, pointer, spriteCtx, textureManager,
     } = this;
+    const { prevX, prevY } = this;
     const { x, y } = pointer;
-    const distance = MathUtil.distance(x, y, this.x, this.y);
-    this.x = x;
-    this.y = y;
+    const distance = MathUtil.distance(x, y, prevX, prevY);
 
     if (distance < this.options.distanceThreshold && action === 'drag') {
       if (pointer.isEnded) this.remove();
@@ -60,13 +59,18 @@ class Brush {
     if (this.options.debug) canvas.debug(x, y);
     else {
       const particle = new Particle({
+        action,
         mainCtx: canvas.ctx,
+        prevX,
+        prevY,
         spriteCtx,
         textureManager,
         x,
         y,
       });
       particle.render();
+      this.prevX = x;
+      this.prevY = y;
     }
 
     if (action === 'tap' || pointer.isEnded) this.remove();
