@@ -41,6 +41,16 @@ class MathUtil {
     return String(num).padStart(size, padWith);
   }
 
+  // range: (-PI, PI]
+  // 3 o'clock is zero
+  // clockwise goes to PI
+  // counter-clockwise goes to -PI
+  static radiansBetweenPoints(x1, y1, x2, y2) {
+    const dy = y2 - y1;
+    const dx = x2 - x1;
+    return Math.atan2(dy, dx);
+  }
+
   static round(value, precision) {
     return Number(value).toFixed(precision);
   }
