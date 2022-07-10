@@ -60,6 +60,7 @@ class Brush {
     else {
       const particle = new Particle({
         action,
+        distanceMin: this.options.distanceThreshold,
         mainCtx: canvas.ctx,
         prevX,
         prevY,

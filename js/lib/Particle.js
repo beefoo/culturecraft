@@ -2,7 +2,10 @@ class Particle {
   constructor(options = {}) {
     const defaults = {
       action: 'drag',
+      distanceMin: 10,
+      distanceMax: 40,
       mainCtx: false,
+      minScale: 0.25,
       prevX: 0,
       prevY: 0,
       spriteCtx: false,
@@ -28,10 +31,21 @@ class Particle {
     this.y = this.options.y;
     this.prevX = this.options.prevX;
     this.prevY = this.options.prevY;
+    this.distance = 0;
     this.radians = 0;
 
     if (this.x !== this.prevX || this.y !== this.prevY) {
+      this.distance = MathUtil.distance(this.prevX, this.prevY, this.x, this.y);
       this.radians = MathUtil.radiansBetweenPoints(this.prevX, this.prevY, this.x, this.y);
+    }
+
+    const { distanceMin, distanceMax } = this.options;
+    this.nDistance = MathUtil.norm(this.distance, distanceMin, distanceMax);
+    this.nDistance = MathUtil.clamp(this.nDistance, 0, 1);
+
+    if (this.options.action === 'tap') {
+      this.nDistance = 1;
+      this.radians = MathUtil.lerp(-Math.PI, Math.PI, Math.random());
     }
 
     this.valid = true;
@@ -62,6 +76,7 @@ class Particle {
     const textureH = textureImage.height;
     const sampleW = Math.floor(spriteW / Math.SQRT2);
     const sampleH = Math.floor(spriteH / Math.SQRT2);
+    const scale = MathUtil.lerp(this.options.minScale, 1, this.nDistance);
 
     if (sampleW > textureW || sampleH > textureH) {
       console.log('Texture image not large enough');
@@ -72,6 +87,7 @@ class Particle {
     const sy = _.random(textureH - sampleH);
     const dx = Math.round((spriteW - sampleW) / 2);
     const dy = Math.round((spriteH - sampleH) / 2);
+
     spriteCtx.restore();
     spriteCtx.clearRect(0, 0, spriteW, spriteH);
     spriteCtx.save();
@@ -89,9 +105,11 @@ class Particle {
     spriteCtx.clip(mask.path);
     spriteCtx.drawImage(textureImage, sx, sy, sampleW, sampleH, dx, dy, sampleW, sampleH);
 
-    const drawX = x - spriteW / 2;
-    const drawY = y - spriteH / 2;
-    mainCtx.drawImage(spriteCtx.canvas, drawX, drawY, spriteW, spriteH);
+    const scaledSpriteW = Math.round(spriteW * scale);
+    const scaledSpriteH = Math.round(spriteH * scale);
+    const drawX = x - scaledSpriteW / 2;
+    const drawY = y - scaledSpriteH / 2;
+    mainCtx.drawImage(spriteCtx.canvas, drawX, drawY, scaledSpriteW, scaledSpriteH);
 
     this.isDrawing = false;
   }
