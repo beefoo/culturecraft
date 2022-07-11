@@ -8,7 +8,8 @@ class MetadataManager {
   }
 
   filter(condition = {}) {
-    this.queue = _.where(this.shuffledMetadata, condition);
+    this.queue = _.where(this.metadata, condition);
+    this.shuffleQueue();
     this.resetQueue();
   }
 
@@ -25,13 +26,12 @@ class MetadataManager {
 
   queueNext() {
     this.currentIndex += 1;
-    if (this.currentIndex >= this.dataCount) this.currentIndex = 0;
+    if (this.currentIndex >= this.queue.length) this.currentIndex = 0;
     this.currentItem = this.queue[this.currentIndex];
   }
 
   onLoad(data) {
     const { columns } = data;
-    this.dataCount = data.rows.length;
     const metadata = _.map(data.rows, (row, index) => _.object(columns, row));
     this.metadata = _.map(metadata, (row, index) => {
       const updatedRow = _.clone(row);
@@ -40,7 +40,6 @@ class MetadataManager {
       return updatedRow;
     });
     // console.log(this.metadata);
-    this.shuffledMetadata = _.shuffle(this.metadata);
     this.filter();
   }
 
@@ -48,5 +47,9 @@ class MetadataManager {
     this.currentIndex = -1;
     this.currentItem = false;
     this.queueNext();
+  }
+
+  shuffleQueue() {
+    this.queue = _.shuffle(this.queue);
   }
 }
