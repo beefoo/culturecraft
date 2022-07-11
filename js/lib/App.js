@@ -2,8 +2,6 @@ class App {
   constructor(options = {}) {
     const defaults = {
       el: '#app',
-      metadataUrl: 'data/metadata.json',
-      texturePath: 'img/texture/*.jpg',
     };
     const q = StringUtil.queryParams();
     this.options = _.extend({}, defaults, options, q);
@@ -16,28 +14,16 @@ class App {
   }
 
   loadData() {
-    const promise = $.Deferred();
-
-    $.getJSON(this.options.metadataUrl, (data) => {
-      const { cols } = data;
-      this.dataCount = data.rows.length;
-      this.metadata = _.map(data.rows, (row, index) => _.object(cols, row));
-      promise.resolve();
-    });
-
-    return promise;
+    this.metadataManager = new MetadataManager();
+    return this.metadataManager.load();
   }
 
   loadMain() {
     this.canvas = new Canvas({
       parent: this.options.el,
     });
-    const { texturePath } = this.options;
-    const textureUrls = _.map(this.metadata, (row, index) => texturePath.replace('*', String(index)));
-    this.textureManager = new TextureManager({
-      urls: textureUrls,
-    });
-    this.textureManager.loadRandomTexture();
+    this.textureManager = new TextureManager();
+    this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
     this.brushManager = new BrushManager({
       canvas: this.canvas,
       textureManager: this.textureManager,
@@ -60,7 +46,8 @@ class App {
 
   onDragEnd(pointer) {
     if (pointer.isPrimary === true) {
-      this.textureManager.loadRandomTexture();
+      this.metadataManager.queueNext();
+      this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
     }
   }
 
