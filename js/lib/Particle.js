@@ -44,7 +44,7 @@ class Particle {
     this.nDistance = MathUtil.clamp(this.nDistance, 0, 1);
 
     if (this.options.action === 'tap') {
-      this.nDistance = 1;
+      this.nDistance = 0.5;
       this.radians = MathUtil.lerp(-Math.PI, Math.PI, Math.random());
     }
 
