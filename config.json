@@ -3,7 +3,7 @@
   "imageDirectory": "ingest/images/",
   "textureSize": [1024, 1024],
   "thumbSize": [128, 128],
-  "metadataProperties": ["Title", "Source", "URL", "Creator",  "Year"],
+  "metadataProperties": ["title", "source", "url", "creator",  "year"],
   "targetImageDirectory": "img/",
   "targetDataFile": "data/metadata.json",
   "collections": [

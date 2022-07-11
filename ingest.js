@@ -34,7 +34,7 @@ function readMetadata(cfg, onFinished) {
 
 function resizeImage(cfg, metadata, i) {
   const item = metadata[i];
-  const inputImageFilename = `${cfg.imageDirectory}${item.Filename}`;
+  const inputImageFilename = `${cfg.imageDirectory}${item.filename}`;
   const textureImageFilename = `${cfg.targetImageDirectory}/texture/${i}.jpg`;
   const thumbImageFilename = `${cfg.targetImageDirectory}/thumb/${i}.jpg`;
   const continueNext = (i < metadata.length - 1);
@@ -42,7 +42,7 @@ function resizeImage(cfg, metadata, i) {
 
   if (fs.existsSync(textureImageFilename) && fs.existsSync(thumbImageFilename)) {
     processImage = false;
-    console.log(`${item.Filename} already processed`);
+    console.log(`${item.filename} already processed`);
   } else if (!fs.existsSync(inputImageFilename)) {
     processImage = false;
     console.log(`${inputImageFilename} does not exist`);
@@ -62,7 +62,7 @@ function resizeImage(cfg, metadata, i) {
         .resize(cfg.thumbSize[0], cfg.thumbSize[1])
         .toFile(thumbImageFilename)
         .then(() => {
-          console.log(`Processed ${item.Filename}`);
+          console.log(`Processed ${item.filename}`);
           if (continueNext) resizeImage(cfg, metadata, i + 1);
         });
     });
@@ -94,12 +94,12 @@ if (argv.reset) {
 readMetadata(config, (cfg, rawData) => {
   const metadata = rawData.map((item) => {
     const newItem = { ...item };
-    newItem.Index = parseInt(item.Index, 10);
+    newItem.index = parseInt(item.index, 10);
     return newItem;
   });
   metadata.sort((a, b) => {
-    if (a.Index > b.Index) return 1;
-    if (b.Index > a.Index) return -1;
+    if (a.index > b.index) return 1;
+    if (b.index > a.index) return -1;
     return 0;
   });
   resizeImages(cfg, metadata);

@@ -5,12 +5,11 @@ class MetadataManager {
       url: 'data/metadata.json',
     };
     this.options = _.extend({}, defaults, options);
-    this.init();
   }
 
-  init() {
-    this.currentIndex = -1;
-    this.currentItem = false;
+  filter(condition = {}) {
+    this.queue = _.where(this.shuffledMetadata, condition);
+    this.resetQueue();
   }
 
   load() {
@@ -31,16 +30,23 @@ class MetadataManager {
   }
 
   onLoad(data) {
-    const { cols } = data;
+    const { columns } = data;
     this.dataCount = data.rows.length;
-    const metadata = _.map(data.rows, (row, index) => _.object(cols, row));
+    const metadata = _.map(data.rows, (row, index) => _.object(columns, row));
     this.metadata = _.map(metadata, (row, index) => {
       const updatedRow = _.clone(row);
       updatedRow.index = index;
       updatedRow.textureUrl = this.options.texturePath.replace('*', String(index));
       return updatedRow;
     });
-    this.queue = _.shuffle(this.metadata);
+    // console.log(this.metadata);
+    this.shuffledMetadata = _.shuffle(this.metadata);
+    this.filter();
+  }
+
+  resetQueue() {
+    this.currentIndex = -1;
+    this.currentItem = false;
     this.queueNext();
   }
 }
