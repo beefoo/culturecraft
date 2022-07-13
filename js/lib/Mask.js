@@ -3,8 +3,9 @@ class Mask {
     const defaults = {
       activeW: 256,
       activeH: 256,
+      debug: false,
       height: 512,
-      minThickness: 0.25,
+      minThickness: 0.4,
       maxThickness: 1,
       nLength: 1, // [0 - 1.] how "long" shapes should be
       shapeCount: 3,
@@ -83,20 +84,72 @@ class Mask {
   addShape(path, i) {
     // determine which section bounds
     let bounds = this.middleBounds;
-    if (i > 0 && i % 2 > 0) {
+    const isTop = (i > 0 && i % 2 > 0);
+    let isLeft = true;
+
+    if (isTop) {
       if ((i + 1) % 4 > 0) bounds = this.topLeftBounds;
-      else bounds = this.topRightBounds;
+      else {
+        isLeft = false;
+        bounds = this.topRightBounds;
+      }
     } else if (i > 0) {
       if (i % 4 > 0) bounds = this.bottomLeftBounds;
-      else bounds = this.bottomRightBounds;
+      else {
+        isLeft = false;
+        bounds = this.bottomRightBounds;
+      }
     }
 
-    const {
-      topY, rightX, bottomY, leftX, centerX, centerY,
-    } = bounds;
-    path.moveTo(leftX, topY);
-    path.lineTo(rightX, centerY);
-    path.lineTo(leftX, bottomY);
-    path.lineTo(leftX, topY);
+    const { rightX, centerX, centerY } = bounds;
+    let { topY, bottomY, leftX } = bounds;
+    const width = rightX - leftX;
+    const height = bottomY - topY;
+
+    if (this.options.debug) {
+      path.moveTo(leftX, topY);
+      path.lineTo(rightX, centerY);
+      path.lineTo(leftX, bottomY);
+      path.lineTo(leftX, topY);
+      return;
+    }
+
+    if (i > 0) {
+      const newWidth = Math.round(MathUtil.lerp(width * 0.25, width, Math.random()));
+      const newHeight = Math.round(MathUtil.lerp(height * 0.25, height, Math.random()));
+      if (isTop) bottomY = topY + newHeight;
+      else topY = bottomY - newHeight;
+      leftX = rightX - newWidth;
+    }
+
+    const points = [];
+    // right side
+    points.push({
+      x: rightX,
+      y: centerY,
+    });
+    // top side
+    points.push({
+      x: MathUtil.lerp(leftX + 1, rightX - 1, Math.random()),
+      y: topY,
+    });
+    // left side
+    points.push({
+      x: leftX,
+      y: MathUtil.lerp(topY + 1, bottomY - 1, Math.random()),
+    });
+    // bottom side
+    points.push({
+      x: MathUtil.lerp(leftX + 1, rightX - 1, Math.random()),
+      y: bottomY,
+    });
+    points.push(_.clone(points[0]));
+
+    _.each(points, (point, pointIndex) => {
+      const x = Math.round(point.x);
+      const y = Math.round(point.y);
+      if (pointIndex === 0) path.moveTo(x, y);
+      else path.lineTo(x, y);
+    });
   }
 }
