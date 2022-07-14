@@ -45,10 +45,7 @@ class App {
   }
 
   onDragEnd(pointer) {
-    if (pointer.isPrimary === true) {
-      this.metadataManager.queueNext();
-      this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
-    }
+    this.queueNextItem(pointer);
   }
 
   onDragStart(pointer) {
@@ -57,6 +54,16 @@ class App {
 
   onTap(pointer) {
     this.brushManager.onTap(pointer);
+    const random = Math.random();
+    // 1 in 4 chance of queueing the next item
+    if (random < 0.25) this.queueNextItem(pointer);
+  }
+
+  queueNextItem(pointer) {
+    if (pointer.isPrimary === true) {
+      this.metadataManager.queueNext();
+      this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
+    }
   }
 
   render() {
