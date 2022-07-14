@@ -23,6 +23,7 @@ class Brush {
     this.timeCreated = Date.now();
     this.prevX = this.pointer.x;
     this.prevY = this.pointer.y;
+    this.hasDrawn = false;
 
     this.$spriteContainer = $('#hidden-layer');
     const $spriteCanvas = $('<canvas></canvas>');
@@ -39,6 +40,7 @@ class Brush {
     this.canvas = false;
     this.pointer = false;
     this.isRemoved = true;
+    this.hasDrawn = false;
   }
 
   render(now) {
@@ -51,7 +53,7 @@ class Brush {
     const { x, y } = pointer;
     const distance = MathUtil.distance(x, y, prevX, prevY);
 
-    if (distance < this.options.distanceThreshold && action === 'drag') {
+    if (distance < this.options.distanceThreshold && action === 'drag' && !(distance > 0 && !this.hasDrawn)) {
       if (pointer.isEnded) this.remove();
       return;
     }
@@ -73,6 +75,7 @@ class Brush {
       this.prevX = x;
       this.prevY = y;
     }
+    this.hasDrawn = true;
 
     if (action === 'tap' || pointer.isEnded) this.remove();
   }

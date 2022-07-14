@@ -8,7 +8,7 @@ class Pointer {
       onDragStart: (pointer) => {},
       onTap: (pointer) => {},
       removeThreshold: 1000, // after this much time after end event and no start, remove
-      tapTimeThreshold: 125, // time it takes to go from tap to press/drag
+      tapTimeThreshold: 400, // time it takes to go from tap to press/drag
     };
     this.options = _.extend({}, defaults, options);
     this.init();
