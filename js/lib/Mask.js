@@ -7,6 +7,7 @@ class Mask {
       height: 512,
       minThickness: 0.4,
       maxThickness: 1,
+      mode: 'random', // curve, ellipse, quad, random
       nLength: 1, // [0 - 1.] how "long" shapes should be
       shapeCount: 3,
       width: 512,
@@ -82,6 +83,9 @@ class Mask {
   }
 
   addShape(path, i) {
+    let { mode } = this.options;
+    if (mode === 'random') mode = _.sample(['curve', 'ellipse', 'quad']);
+
     // determine which section bounds
     let bounds = this.middleBounds;
     const isTop = (i > 0 && i % 2 > 0);
@@ -103,8 +107,8 @@ class Mask {
 
     const { rightX, centerX, centerY } = bounds;
     let { topY, bottomY, leftX } = bounds;
-    const width = rightX - leftX;
-    const height = bottomY - topY;
+    let width = rightX - leftX;
+    let height = bottomY - topY;
 
     if (this.options.debug) {
       path.moveTo(leftX, topY);
@@ -115,11 +119,21 @@ class Mask {
     }
 
     if (i > 0) {
-      const newWidth = Math.round(MathUtil.lerp(width * 0.25, width, Math.random()));
-      const newHeight = Math.round(MathUtil.lerp(height * 0.25, height, Math.random()));
-      if (isTop) bottomY = topY + newHeight;
-      else topY = bottomY - newHeight;
-      leftX = rightX - newWidth;
+      width = Math.round(MathUtil.lerp(width * 0.25, width, Math.random()));
+      height = Math.round(MathUtil.lerp(height * 0.25, height, Math.random()));
+      if (isTop) bottomY = topY + height;
+      else topY = bottomY - height;
+      leftX = rightX - width;
+    }
+
+    if (mode === 'ellipse') {
+      const cx = Math.round(MathUtil.lerp(leftX, rightX, 0.5));
+      const cy = Math.round(MathUtil.lerp(topY, bottomY, 0.5));
+      const rx = Math.floor(width / 2);
+      const ry = Math.floor(height / 2);
+      const radians = MathUtil.lerp(Math.PI, 2 * Math.PI, Math.random());
+      Mask.drawEllipse(path, cx, cy, rx, ry, radians);
+      return;
     }
 
     const points = [];
@@ -145,9 +159,40 @@ class Mask {
     });
     points.push(_.clone(points[0]));
 
+    points.map((point) => {
+      const newPoint = point;
+      newPoint.x = Math.round(point.x);
+      newPoint.y = Math.round(point.y);
+      return newPoint;
+    });
+
+    if (mode === 'curve') Mask.drawCurve(path, points);
+    else Mask.drawQuad(path, points);
+  }
+
+  static drawCurve(path, points) {
     _.each(points, (point, pointIndex) => {
-      const x = Math.round(point.x);
-      const y = Math.round(point.y);
+      const { x, y } = point;
+      if (pointIndex === 0) path.moveTo(x, y);
+      else if (pointIndex % 2 === 0) {
+        const prev = points[pointIndex - 1];
+        path.quadraticCurveTo(prev.x, prev.y, x, y);
+      }
+    });
+    if (points.length % 2 === 0) {
+      const lastPoint = _.last(points);
+      path.lineTo(lastPoint.x, lastPoint.y);
+    }
+  }
+
+  static drawEllipse(path, cx, cy, rx, ry, endAngle) {
+    path.moveTo(cx + rx, cy);
+    path.ellipse(cx, cy, rx, ry, 0, 0, endAngle);
+  }
+
+  static drawQuad(path, points) {
+    _.each(points, (point, pointIndex) => {
+      const { x, y } = point;
       if (pointIndex === 0) path.moveTo(x, y);
       else path.lineTo(x, y);
     });

@@ -100,6 +100,7 @@ class Particle {
       activeH: sampleH,
       activeW: sampleW,
       height: spriteH,
+      shapeCount: _.random(1, 3),
       width: spriteW,
     });
     spriteCtx.clip(mask.path);
