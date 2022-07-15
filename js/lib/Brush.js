@@ -51,7 +51,7 @@ class Brush {
     const {
       action, canvas, pointer, spriteCtx, textureManager,
     } = this;
-    const { 
+    const {
       offsetX, offsetY, prevX, prevY,
     } = this;
     const { x, y } = pointer;

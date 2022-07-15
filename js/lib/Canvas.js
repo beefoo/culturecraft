@@ -24,6 +24,7 @@ class Canvas {
     this.ctx.shadowOffsetX = 1;
     this.ctx.shadowOffsetY = 1;
     this.initialized = true;
+    this.loadListeners();
   }
 
   debug(x, y) {
@@ -34,30 +35,48 @@ class Canvas {
     this.ctx.closePath();
   }
 
+  loadListeners() {
+    const delayedResize = _.debounce((e) => this.onResize(), 250);
+    this.$window.on('resize', delayedResize);
+  }
+
   onResize() {
     const windowW = this.$window.width();
     const windowH = this.$window.height();
-    let canvasW = this.canvas.width;
-    let canvasH = this.canvas.height;
+    const canvasW = this.canvas.width;
+    const canvasH = this.canvas.height;
+    let newCanvasW = canvasW;
+    let newCanvasH = canvasH;
+    let drawnContentRetrieved = false;
     const { padding } = this.options;
     const needsResize = !canvasW || !canvasH
       || windowW > canvasW || windowH > canvasH
       || !this.initialized;
 
     if (needsResize) {
-      canvasW = Math.max(canvasW + padding, windowW + padding);
-      canvasH = Math.max(canvasH + padding, windowH + padding);
+      newCanvasW = Math.max(canvasW + padding * 2, windowW + padding * 2);
+      newCanvasH = Math.max(canvasH + padding * 2, windowH + padding * 2);
+      if (this.initialized) drawnContentRetrieved = createImageBitmap(this.canvas);
+      this.canvas.width = newCanvasW;
+      this.canvas.height = newCanvasH;
     }
 
-    this.canvas.width = canvasW;
-    this.canvas.height = canvasH;
-    this.offsetX = Math.round((canvasW - windowW) / 2);
-    this.offsetY = Math.round((canvasH - windowH) / 2);
+    this.offsetX = Math.round((newCanvasW - windowW) / 2);
+    this.offsetY = Math.round((newCanvasH - windowH) / 2);
     this.$parent.css({
-      height: `${canvasH}px`,
-      'margin-left': `-${(canvasW / 2)}px`,
-      'margin-top': `-${canvasH / 2}px`,
-      width: `${canvasW}px`,
+      height: `${newCanvasH}px`,
+      'margin-left': `-${(newCanvasW / 2)}px`,
+      'margin-top': `-${newCanvasH / 2}px`,
+      width: `${newCanvasW}px`,
     });
+
+    if (drawnContentRetrieved !== false) {
+      const drawX = Math.round((newCanvasW - canvasW) / 2);
+      const drawY = Math.round((newCanvasH - canvasH) / 2);
+      drawnContentRetrieved.then((bitmap) => {
+        this.ctx.clearRect(0, 0, newCanvasW, newCanvasH);
+        this.ctx.drawImage(bitmap, drawX, drawY);
+      });
+    }
   }
 }
