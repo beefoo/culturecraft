@@ -31,24 +31,12 @@ li {
   left: 0;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.app {
-  flex-grow: 1;
-  align-items: stretch;
-  background: rgba(0, 0, 0, 0.4);
-  position: relative;
-  z-index: 1;
-}
-.app canvas {
+.canvas-wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
+  left: 50%;
+  top: 50%;
 }
 
 .main-nav {
@@ -136,6 +124,11 @@ ul.menu button.item-button {
 }
 
 .touchable {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   touch-action: none;
   user-select: none;
   -webkit-user-drag: none;

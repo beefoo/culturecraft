@@ -1,7 +1,8 @@
 class App {
   constructor(options = {}) {
     const defaults = {
-      el: '#app',
+      canvasEl: '#canvas-wrapper',
+      touchEl: '#touchable',
     };
     const q = StringUtil.queryParams();
     this.options = _.extend({}, defaults, options, q);
@@ -20,7 +21,7 @@ class App {
 
   loadMain() {
     this.canvas = new Canvas({
-      parent: this.options.el,
+      parent: this.options.canvasEl,
     });
     this.textureManager = new TextureManager();
     this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
@@ -39,7 +40,7 @@ class App {
       onTap: (pointer) => {
         this.onTap(pointer);
       },
-      target: this.options.el,
+      target: this.options.touchEl,
     });
     this.render();
   }

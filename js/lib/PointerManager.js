@@ -7,7 +7,7 @@ class PointerManager {
       onDragEnd: (pointer) => {},
       onDragStart: (pointer) => {},
       onTap: (pointer) => {},
-      target: '#app',
+      target: '#touchable',
     };
     this.options = _.extend({}, defaults, options);
     this.init();

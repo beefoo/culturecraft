@@ -17,6 +17,8 @@ class Brush {
   init() {
     this.action = this.options.action;
     this.canvas = this.options.canvas;
+    this.offsetX = this.canvas.offsetX;
+    this.offsetY = this.canvas.offsetY;
     this.pointer = this.options.pointer;
     this.textureManager = this.options.textureManager;
     this.isRemoved = false;
@@ -49,7 +51,9 @@ class Brush {
     const {
       action, canvas, pointer, spriteCtx, textureManager,
     } = this;
-    const { prevX, prevY } = this;
+    const { 
+      offsetX, offsetY, prevX, prevY,
+    } = this;
     const { x, y } = pointer;
     const distance = MathUtil.distance(x, y, prevX, prevY);
 
@@ -64,12 +68,12 @@ class Brush {
         action,
         distanceMin: this.options.distanceThreshold,
         mainCtx: canvas.ctx,
-        prevX,
-        prevY,
+        prevX: prevX + offsetX,
+        prevY: prevY + offsetY,
         spriteCtx,
         textureManager,
-        x,
-        y,
+        x: x + offsetX,
+        y: y + offsetY,
       });
       particle.render();
       this.prevX = x;

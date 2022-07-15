@@ -1,15 +1,20 @@
 class Canvas {
   constructor(options = {}) {
     const defaults = {
-      parent: '#app',
+      padding: 100,
+      parent: '#canvas-wrapper',
     };
     this.options = _.extend({}, defaults, options);
     this.init();
   }
 
   init() {
+    this.initialized = false;
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.$window = $(window);
     this.$parent = $(this.options.parent);
-    const $canvas = $('<canvas id="main-canvas" class="canvas"></canvas>');
+    const $canvas = $('<canvas id="main-canvas" class="canvas" width="300" height="200"></canvas>');
     this.$parent.append($canvas);
     [this.canvas] = $canvas;
     this.onResize();
@@ -18,6 +23,7 @@ class Canvas {
     this.ctx.shadowBlur = 8;
     this.ctx.shadowOffsetX = 1;
     this.ctx.shadowOffsetY = 1;
+    this.initialized = true;
   }
 
   debug(x, y) {
@@ -29,9 +35,29 @@ class Canvas {
   }
 
   onResize() {
-    this.width = Math.round(this.$parent.width());
-    this.height = Math.round(this.$parent.height());
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
+    const windowW = this.$window.width();
+    const windowH = this.$window.height();
+    let canvasW = this.canvas.width;
+    let canvasH = this.canvas.height;
+    const { padding } = this.options;
+    const needsResize = !canvasW || !canvasH
+      || windowW > canvasW || windowH > canvasH
+      || !this.initialized;
+
+    if (needsResize) {
+      canvasW = Math.max(canvasW + padding, windowW + padding);
+      canvasH = Math.max(canvasH + padding, windowH + padding);
+    }
+
+    this.canvas.width = canvasW;
+    this.canvas.height = canvasH;
+    this.offsetX = Math.round((canvasW - windowW) / 2);
+    this.offsetY = Math.round((canvasH - windowH) / 2);
+    this.$parent.css({
+      height: `${canvasH}px`,
+      'margin-left': `-${(canvasW / 2)}px`,
+      'margin-top': `-${canvasH / 2}px`,
+      width: `${canvasW}px`,
+    });
   }
 }
