@@ -19,10 +19,7 @@ class Canvas {
     [this.canvas] = $canvas;
     this.onResize();
     this.ctx = this.canvas.getContext('2d');
-    this.ctx.shadowColor = 'rgba(0, 0, 0, .667)';
-    this.ctx.shadowBlur = 8;
-    this.ctx.shadowOffsetX = 1;
-    this.ctx.shadowOffsetY = 1;
+    this.loadStyle();
     this.initialized = true;
     this.loadListeners();
   }
@@ -38,6 +35,13 @@ class Canvas {
   loadListeners() {
     const delayedResize = _.debounce((e) => this.onResize(), 250);
     this.$window.on('resize', delayedResize);
+  }
+
+  loadStyle() {
+    this.ctx.shadowColor = 'rgba(0, 0, 0, .667)';
+    this.ctx.shadowBlur = 8;
+    this.ctx.shadowOffsetX = 1;
+    this.ctx.shadowOffsetY = 1;
   }
 
   onResize() {
@@ -76,6 +80,7 @@ class Canvas {
       drawnContentRetrieved.then((bitmap) => {
         this.ctx.clearRect(0, 0, newCanvasW, newCanvasH);
         this.ctx.drawImage(bitmap, drawX, drawY);
+        this.loadStyle();
       });
     }
   }
