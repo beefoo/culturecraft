@@ -54,6 +54,10 @@ class PointerManager {
     return pointerId;
   }
 
+  isPointersActive() {
+    return _.find(this.pointers, (pointer) => pointer.isActive);
+  }
+
   loadListeners() {
     this.$target.on('pointerdown', (e) => this.onPointerStart(e));
     this.$target.on('pointerup pointercancel pointerout', (e) => this.onPointerEnd(e));
@@ -66,9 +70,14 @@ class PointerManager {
     });
   }
 
+  onAllPointersEnd() {
+    this.$target.removeClass('active');
+  }
+
   onPointerEnd(event) {
     const pointer = this.getPointer(event);
     pointer.onEnd(event);
+    if (!this.isPointersActive()) this.onAllPointersEnd();
   }
 
   onPointerMove(event) {
@@ -78,6 +87,7 @@ class PointerManager {
 
   onPointerStart(event) {
     if (!this.firstTouch) this.firstTouch = true;
+    this.$target.addClass('active');
     const pointer = this.getPointer(event);
     pointer.onStart(event);
   }

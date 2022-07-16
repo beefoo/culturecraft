@@ -22,6 +22,17 @@ li {
   line-height: 1.8;
 }
 
+nav {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+ul.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
 .wrapper,
 .debug {
   position: absolute;
@@ -39,7 +50,89 @@ li {
   top: 50%;
 }
 
-.main-nav {
+.item-nav {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+.item-nav ul.menu {
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.item-nav ul.menu li {
+  margin: 12px 0 0 0;
+  line-height: 1;
+}
+.item-nav ul.menu li:first-child {
+  margin: 0;
+}
+.item-nav ul.menu button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  width: 16vmin;
+  height: 16vmin;
+  max-width: 128px;
+  max-height: 128px;
+}
+.item-nav ul.menu button:focus {
+  outline: 3px solid #fcdf03;
+}
+.item-nav ul.menu li:first-child button {
+  width: 8vmin;
+  height: 8vmin;
+  max-width: 64px;
+  max-height: 64px;
+}
+.item-nav ul.menu li:nth-child(2) button {
+  width: 10vmin;
+  height: 10vmin;
+  max-width: 80px;
+  max-height: 80px;
+}
+.item-nav ul.menu li:nth-child(3) button {
+  width: 12vmin;
+  height: 12vmin;
+  max-width: 96px;
+  max-height: 96px;
+}
+.item-nav ul.menu li:nth-child(4) button {
+  width: 14vmin;
+  height: 14vmin;
+  max-width: 112px;
+  max-height: 112px;
+}
+.item-nav ul.menu img {
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+}
+
+.touchable {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.touchable.active {
+  z-index: 100;
+}
+.touchable.active ~ nav {
+  opacity: 0.2;
+}
+
+/* .main-nav {
   height: 60px;
   box-shadow: 0 -6px 6px rgba(0, 0, 0, 0.3);
   border-top: 3px solid rgba(255, 255, 255, 0.125);
@@ -99,7 +192,7 @@ ul.menu button.item-button {
   display: inline-block;
   max-width: 100%;
   min-width: 0;
-}
+} */
 
 .debug-pointer {
   display: none;
@@ -121,18 +214,6 @@ ul.menu button.item-button {
 }
 .debug-pointer.active {
   background: #3d68ad;
-}
-
-.touchable {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .visually-hidden {

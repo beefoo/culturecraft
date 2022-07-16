@@ -22,6 +22,7 @@ class Pointer {
     this.x = -999;
     this.y = -999;
     this.isPrimary = false;
+    this.isActive = false;
 
     this.reset();
   }
@@ -81,6 +82,7 @@ class Pointer {
     this.isEnded = true;
     this.addEvent(event);
     this.isStarted = false;
+    this.isActive = false;
 
     const timeSinceFirstEvent = this.finalEvent.time - this.firstEvent.time;
     if (timeSinceFirstEvent <= this.options.tapTimeThreshold) {
@@ -102,6 +104,7 @@ class Pointer {
     this.reset();
     this.isStarted = true;
     this.isFirst = true;
+    this.isActive = true;
     this.addEvent(event);
   }
 
@@ -124,6 +127,7 @@ class Pointer {
     this.isEnded = false;
     this.isFirst = false;
     this.isFinal = false;
+    this.isActive = false;
 
     this.firstEvent = false;
     this.previousEvent = false;
