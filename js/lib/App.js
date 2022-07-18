@@ -29,6 +29,8 @@ class App {
       canvas: this.canvas,
       textureManager: this.textureManager,
     });
+    this.itemUI = new ItemUI();
+    this.itemUI.loadItem(this.metadataManager.currentItem);
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
       onDragEnd: (pointer) => {
@@ -64,6 +66,7 @@ class App {
     if (pointer.isPrimary === true) {
       this.metadataManager.queueNext();
       this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
+      this.itemUI.loadItem(this.metadataManager.currentItem);
     }
   }
 

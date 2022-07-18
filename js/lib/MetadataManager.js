@@ -37,6 +37,16 @@ class MetadataManager {
       const updatedRow = _.clone(row);
       updatedRow.index = index;
       updatedRow.textureUrl = this.options.texturePath.replace('*', String(index));
+      let thumbHTML = '';
+      thumbHTML += `<img src="img/thumb/${index}.jpg"`;
+      thumbHTML += ` alt="Thumbnail image of ${row.title}"`;
+      thumbHTML += ` title="${row.title}" />`;
+      let buttonHTML = '';
+      buttonHTML += '<button class="item-button">';
+      buttonHTML += thumbHTML;
+      buttonHTML += '</button>';
+      updatedRow.thumbHTML = thumbHTML;
+      updatedRow.buttonHTML = buttonHTML;
       return updatedRow;
     });
     // console.log(this.metadata);
