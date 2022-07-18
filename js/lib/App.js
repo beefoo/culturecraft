@@ -2,6 +2,7 @@ class App {
   constructor(options = {}) {
     const defaults = {
       canvasEl: '#canvas-wrapper',
+      minTimeBetweenItems: 1000,
       touchEl: '#touchable',
     };
     const q = StringUtil.queryParams();
@@ -20,6 +21,7 @@ class App {
   }
 
   loadMain() {
+    this.lastItemLoad = Date.now();
     this.canvas = new Canvas({
       parent: this.options.canvasEl,
     });
@@ -64,9 +66,13 @@ class App {
 
   queueNextItem(pointer) {
     if (pointer.isPrimary === true) {
+      const now = Date.now();
+      const timeSinceLastLoad = now - this.lastItemLoad;
+      if (timeSinceLastLoad < this.options.minTimeBetweenItems) return;
       this.metadataManager.queueNext();
       this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
       this.itemUI.loadItem(this.metadataManager.currentItem);
+      this.lastItemLoad = now;
     }
   }
 
