@@ -31,7 +31,9 @@ class App {
       canvas: this.canvas,
       textureManager: this.textureManager,
     });
-    this.itemUI = new ItemUI();
+    this.itemUI = new ItemUI({
+      metadataManager: this.metadataManager,
+    });
     this.itemUI.loadItem(this.metadataManager.currentItem);
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,

@@ -1,16 +1,18 @@
 class MetadataManager {
   constructor(options = {}) {
     const defaults = {
+      maxHistorySize: 1000,
       texturePath: 'img/texture/*.jpg',
       url: 'data/metadata.json',
     };
     this.options = _.extend({}, defaults, options);
+    this.init();
   }
 
-  filter(condition = {}) {
-    this.queue = _.where(this.metadata, condition);
-    this.shuffleQueue();
-    this.resetQueue();
+  init() {
+    this.history = [];
+    this.queue = [];
+    this.filter = {};
   }
 
   load() {
@@ -24,10 +26,28 @@ class MetadataManager {
     return promise;
   }
 
+  loadQueue() {
+    this.queue = _.where(this.metadata, this.filter);
+    this.shuffleQueue();
+  }
+
   queueNext() {
-    this.currentIndex += 1;
-    if (this.currentIndex >= this.queue.length) this.currentIndex = 0;
-    this.currentItem = this.queue[this.currentIndex];
+    if (this.queue.length <= 0) this.loadQueue();
+    const nextItem = this.queue.shift();
+    nextItem.historyIndex = this.history.length - 1;
+    this.history.push(nextItem);
+    this.currentItem = nextItem;
+
+    if (this.history.length > this.options.maxHistorySize) {
+      const delta = this.history.length - this.options.maxHistorySize;
+      this.history = this.history.slice(delta, this.history.length);
+      this.history = _.map(this.history, (item, index) => {
+        const updatedItem = _.clone(item);
+        updatedItem.historyIndex = index;
+        return updatedItem;
+      });
+      this.currentItem = _.last(this.history);
+    }
   }
 
   onLoad(data) {
@@ -36,26 +56,22 @@ class MetadataManager {
     this.metadata = _.map(metadata, (row, index) => {
       const updatedRow = _.clone(row);
       updatedRow.index = index;
+      updatedRow.historyIndex = -1;
       updatedRow.textureUrl = this.options.texturePath.replace('*', String(index));
       let thumbHTML = '';
       thumbHTML += `<img src="img/thumb/${index}.jpg"`;
       thumbHTML += ` alt="Thumbnail image of ${row.title}"`;
       thumbHTML += ` title="${row.title}" />`;
       let buttonHTML = '';
-      buttonHTML += '<button class="item-button">';
+      buttonHTML += `<button class="item-button" data-item-index="${index}">`;
       buttonHTML += thumbHTML;
       buttonHTML += '</button>';
       updatedRow.thumbHTML = thumbHTML;
       updatedRow.buttonHTML = buttonHTML;
       return updatedRow;
     });
+    this.dataCount = this.metadata.length;
     // console.log(this.metadata);
-    this.filter();
-  }
-
-  resetQueue() {
-    this.currentIndex = -1;
-    this.currentItem = false;
     this.queueNext();
   }
 
