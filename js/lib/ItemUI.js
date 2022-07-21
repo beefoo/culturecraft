@@ -26,6 +26,7 @@ class ItemUI {
     const { history } = this.metadataManager;
     const historyCount = history.length;
     const menuDelta = this.menuItemCount - delta;
+    this.currentItem = this.metadataManager.currentItem;
     _.times(delta, (i) => {
       const historyIndex = historyCount - i - 1 - menuDelta;
       let html = '<li>&nbps;</li>';
