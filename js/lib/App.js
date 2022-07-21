@@ -62,6 +62,7 @@ class App {
 
   onItemChange() {
     this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
+    this.lastItemLoad = Date.now();
   }
 
   onTap(pointer) {
