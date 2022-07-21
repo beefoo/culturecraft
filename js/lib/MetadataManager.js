@@ -15,6 +15,19 @@ class MetadataManager {
     this.filter = {};
   }
 
+  goBackTo(historyIndex) {
+    if (historyIndex < 0 || historyIndex >= this.history.length - 1) return 0;
+
+    const delta = (this.history.length - 1) - historyIndex;
+    _.times(delta, (i) => {
+      const item = this.history.pop();
+      this.queue.unshift(item);
+    });
+
+    this.currentItem = _.last(this.history);
+    return delta;
+  }
+
   load() {
     const promise = $.Deferred();
 
@@ -34,7 +47,7 @@ class MetadataManager {
   queueNext() {
     if (this.queue.length <= 0) this.loadQueue();
     const nextItem = this.queue.shift();
-    nextItem.historyIndex = this.history.length - 1;
+    nextItem.historyIndex = this.history.length;
     this.history.push(nextItem);
     this.currentItem = nextItem;
 

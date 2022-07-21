@@ -33,6 +33,7 @@ class App {
     });
     this.itemUI = new ItemUI({
       metadataManager: this.metadataManager,
+      onItemChange: () => this.onItemChange(),
     });
     this.itemUI.loadItem(this.metadataManager.currentItem);
     this.pointerManager = new PointerManager({
@@ -57,6 +58,10 @@ class App {
 
   onDragStart(pointer) {
     this.brushManager.onDragStart(pointer);
+  }
+
+  onItemChange() {
+    this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
   }
 
   onTap(pointer) {
