@@ -16,7 +16,7 @@ class ItemUI {
     this.metadataManager = this.options.metadataManager;
     this.currentItem = false;
     let buttonHTML = '<li class="active" data-item-index="<%= index %>"';
-    buttonHTML += ' data-history-index="<%= historyIndex %>"><%= buttonHTML %></li>';
+    buttonHTML += ' data-history-index="<%= historyIndex %>"><%= detailHTML %><%= buttonHTML %></li>';
     this.buttonTemplate = _.template(buttonHTML);
     this.lastItemClick = 0;
     this.loadListeners();
@@ -49,9 +49,9 @@ class ItemUI {
     setTimeout(() => {
       this.$menuEl.find('li:first').remove();
     }, 10);
-    setTimeout(() => {
-      $li.find('.item-button').focus();
-    }, 300);
+    // setTimeout(() => {
+    //   $li.find('.item-button').focus();
+    // }, 300);
   }
 
   loadListeners() {

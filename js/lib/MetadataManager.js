@@ -64,12 +64,14 @@ class MetadataManager {
   }
 
   onLoad(data) {
-    const { columns } = data;
-    const metadata = _.map(data.rows, (row, index) => _.object(columns, row));
+    const { items, collections } = data;
+    const { columns } = items;
+    const metadata = _.map(items.rows, (row, index) => _.object(columns, row));
     this.metadata = _.map(metadata, (row, index) => {
       const updatedRow = _.clone(row);
       updatedRow.index = index;
       updatedRow.historyIndex = -1;
+      updatedRow.collection = _.findWhere(collections, { id: row.source });
       updatedRow.textureUrl = this.options.texturePath.replace('*', String(index));
       let thumbHTML = '';
       thumbHTML += `<img src="img/thumb/${index}.jpg"`;
@@ -79,11 +81,19 @@ class MetadataManager {
       buttonHTML += `<button class="item-button" data-item-index="${index}">`;
       buttonHTML += thumbHTML;
       buttonHTML += '</button>';
+      let detailHTML = '';
+      detailHTML += '<div class="item-detail">';
+      detailHTML += `<h3><a href="${row.url}" target="_blank">${row.title}</a></h3>`;
+      detailHTML += `<h4>${row.creator} (${row.year})</h4>`;
+      detailHTML += `<h4>Source: <a href="${row.url}" target="_blank">${updatedRow.collection.name}</a></h4>`;
+      detailHTML += '</div>';
       updatedRow.thumbHTML = thumbHTML;
       updatedRow.buttonHTML = buttonHTML;
+      updatedRow.detailHTML = detailHTML;
       return updatedRow;
     });
     this.dataCount = this.metadata.length;
+    this.collections = collections;
     // console.log(this.metadata);
     this.queueNext();
   }

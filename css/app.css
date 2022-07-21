@@ -85,6 +85,7 @@ ul.menu {
   height: 100%;
   display: block;
   box-sizing: border-box;
+  position: relative;
 }
 .item-nav ul.menu button:focus {
   outline: 3px solid #fcdf03;
@@ -97,17 +98,17 @@ ul.menu {
   border: 2px solid #ccc;
 }
 .item-nav ul.menu li:nth-child(1) {
-  transform: translate3d(0, -320px, 0) scale3d(0, 0, 0); /* 100 + 80 + 60 + 40 + 10 * 4 */
+  transform: translate3d(0, -340px, 0) scale3d(0, 0, 0); /* 100 + 80 + 60 + 40 + 15 * 4 */
   opacity: 0;
 }
 .item-nav ul.menu li:nth-child(2) {
-  transform: translate3d(0, -270px, 0) scale3d(0.4, 0.4, 1); /* 100 + 80 + 60 + 10 * 3 */
+  transform: translate3d(0, -285px, 0) scale3d(0.4, 0.4, 1); /* 100 + 80 + 60 + 15 * 3 */
 }
 .item-nav ul.menu li:nth-child(3) {
-  transform: translate3d(0, -200px, 0) scale3d(0.6, 0.6, 1); /* 100 + 80 + 10 * 2 */
+  transform: translate3d(0, -210px, 0) scale3d(0.6, 0.6, 1); /* 100 + 80 + 15 * 2 */
 }
 .item-nav ul.menu li:nth-child(4) {
-  transform: translate3d(0, -110px, 0) scale3d(0.8, 0.8, 1); /* 100 + 10 */
+  transform: translate3d(0, -115px, 0) scale3d(0.8, 0.8, 1); /* 100 + 15 */
 }
 .item-nav ul.menu li:nth-child(5) {
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
@@ -115,6 +116,44 @@ ul.menu {
 .item-nav ul.menu li:nth-child(n + 6) {
   transform: translate3d(0, 110px, 0) scale3d(0, 0, 0);
   opacity: 0;
+}
+.item-detail {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+  position: absolute;
+  right: -12px;
+  bottom: -12px;
+  width: 500px;
+  height: auto;
+  min-height: 124px;
+  padding: 12px 124px 12px 12px;
+  box-shadow: -3px -6px 6px rgba(0, 0, 0, 0.3);
+  border-top: 3px solid rgba(255, 255, 255, 0.125);
+  border-left: 3px solid rgba(255, 255, 255, 0.125);
+  box-sizing: border-box;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  color: rgb(27, 19, 12, 0.9);
+  background: rgb(189, 168, 148) url(../img/oak-bg.jpg) repeat;
+  border-top-left-radius: 12px;
+}
+.item-detail a {
+  color: rgb(27, 19, 12, 0.9);
+}
+.item-detail h3 {
+  margin: 0;
+  line-height: 1;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.item-detail h4 {
+  margin: 6px 0 0 0;
+  line-height: 1;
+  font-size: 0.9rem;
+}
+.item-nav ul.menu li:nth-child(5) .item-detail {
+  opacity: 1;
+  display: block;
 }
 
 .touchable {

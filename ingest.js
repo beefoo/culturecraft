@@ -76,8 +76,11 @@ function writeMetadata(cfg, metadata) {
   const columnsOut = [...cfg.metadataProperties];
   const rowsOut = metadata.map((row) => columnsOut.map((col) => row[col]));
   const jsonOut = {
-    columns: columnsOut,
-    rows: rowsOut,
+    items: {
+      columns: columnsOut,
+      rows: rowsOut,
+    },
+    collections: cfg.collections,
   };
   const jsonString = JSON.stringify(jsonOut);
   fs.writeFile(cfg.targetDataFile, jsonString, (err) => {
