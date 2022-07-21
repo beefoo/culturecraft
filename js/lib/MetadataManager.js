@@ -73,6 +73,8 @@ class MetadataManager {
       updatedRow.historyIndex = -1;
       updatedRow.collection = _.findWhere(collections, { id: row.source });
       updatedRow.textureUrl = this.options.texturePath.replace('*', String(index));
+      if (row.creator.length <= 0) updatedRow.creator = 'Unknown';
+      if (row.year.length <= 0) updatedRow.year = 'Unknown date';
       let thumbHTML = '';
       thumbHTML += `<img src="img/thumb/${index}.jpg"`;
       thumbHTML += ` alt="Thumbnail image of ${row.title}"`;
@@ -84,7 +86,7 @@ class MetadataManager {
       let detailHTML = '';
       detailHTML += '<div class="item-detail">';
       detailHTML += `<h3><a href="${row.url}" target="_blank">${row.title}</a></h3>`;
-      detailHTML += `<h4>${row.creator} (${row.year})</h4>`;
+      detailHTML += `<h4>${updatedRow.creator} (${updatedRow.year})</h4>`;
       detailHTML += `<h4>Source: <a href="${row.url}" target="_blank">${updatedRow.collection.name}</a></h4>`;
       detailHTML += '</div>';
       updatedRow.thumbHTML = thumbHTML;
