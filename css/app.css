@@ -164,7 +164,7 @@ ul.menu {
   margin-top: 12px;
 }
 .item-detail .button-group button {
-  font-size: 0.9rem;
+  font-size: 1rem;
   display: inline-block;
   margin-left: 12px;
   color: rgb(27, 19, 12, 0.9);
@@ -207,7 +207,7 @@ ul.menu {
     font-size: 0.75rem;
   }
   .item-detail .button-group button {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 }
 

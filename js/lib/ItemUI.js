@@ -20,6 +20,7 @@ class ItemUI {
     buttonHTML += ' data-history-index="<%= historyIndex %>"><%= detailHTML %><%= buttonHTML %></li>';
     this.buttonTemplate = _.template(buttonHTML);
     this.lastItemClick = 0;
+    this.isPinned = false;
     this.loadListeners();
   }
 
@@ -58,6 +59,7 @@ class ItemUI {
   loadListeners() {
     this.$menuEl.on('click', '.item-button', (e) => this.onClickItemButton(e));
     this.$menuEl.on('click', '.load-next-item', (e) => this.onClickNextItemButton(e));
+    this.$menuEl.on('click', '.pin-current-item', (e) => this.onClickPinItemButton(e));
   }
 
   onClickItemButton(event) {
@@ -71,14 +73,28 @@ class ItemUI {
     const historyIndex = parseInt($li.attr('data-history-index'), 10);
     const delta = this.metadataManager.goBackTo(historyIndex);
 
-    if (delta === 0) console.log('TODO: show item details');
-    else if (delta > 0) {
+    if (delta > 0) {
+      this.unpin();
       this.goBack(delta);
       if (this.options.onItemChange) this.options.onItemChange();
     }
   }
 
   onClickNextItemButton(event) {
+    this.unpin();
     if (this.options.onItemNext) this.options.onItemNext();
+  }
+
+  onClickPinItemButton(event) {
+    const $button = $(event.currentTarget);
+    $button.toggleClass('active');
+    this.isPinned = $button.hasClass('active');
+    if (this.isPinned) $button.text('Unpin this');
+    else $button.text('Pin this');
+  }
+
+  unpin() {
+    this.$menuEl.find('.pin-current-item.active').removeClass('active');
+    this.isPinned = false;
   }
 }

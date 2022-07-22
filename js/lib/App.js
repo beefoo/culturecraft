@@ -75,6 +75,7 @@ class App {
 
   queueNextItem(pointer) {
     if (pointer !== undefined && pointer.isPrimary !== true) return;
+    if (this.itemUI.isPinned === true) return;
     const now = Date.now();
     const timeSinceLastLoad = now - this.lastItemLoad;
     if (timeSinceLastLoad < this.options.minTimeBetweenItems) return;
