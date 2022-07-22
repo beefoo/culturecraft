@@ -88,6 +88,10 @@ class MetadataManager {
       detailHTML += `<h3><a href="${row.url}" target="_blank">${row.title}</a></h3>`;
       detailHTML += `<h4>${updatedRow.creator} (${updatedRow.year})</h4>`;
       detailHTML += `<h4>Source: <a href="${row.url}" target="_blank">${updatedRow.collection.name}</a></h4>`;
+      detailHTML += '<div class="button-group">';
+      detailHTML += '<button class="pin-current-item">Pin this</button>';
+      detailHTML += '<button class="load-next-item">Next item</button>';
+      detailHTML += '</div>';
       detailHTML += '</div>';
       updatedRow.thumbHTML = thumbHTML;
       updatedRow.buttonHTML = buttonHTML;

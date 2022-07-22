@@ -34,6 +34,7 @@ class App {
     this.itemUI = new ItemUI({
       metadataManager: this.metadataManager,
       onItemChange: () => this.onItemChange(),
+      onItemNext: () => this.queueNextItem(),
     });
     this.itemUI.loadItem(this.metadataManager.currentItem);
     this.pointerManager = new PointerManager({
@@ -73,15 +74,14 @@ class App {
   }
 
   queueNextItem(pointer) {
-    if (pointer.isPrimary === true) {
-      const now = Date.now();
-      const timeSinceLastLoad = now - this.lastItemLoad;
-      if (timeSinceLastLoad < this.options.minTimeBetweenItems) return;
-      this.metadataManager.queueNext();
-      this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
-      this.itemUI.loadItem(this.metadataManager.currentItem);
-      this.lastItemLoad = now;
-    }
+    if (pointer !== undefined && pointer.isPrimary !== true) return;
+    const now = Date.now();
+    const timeSinceLastLoad = now - this.lastItemLoad;
+    if (timeSinceLastLoad < this.options.minTimeBetweenItems) return;
+    this.metadataManager.queueNext();
+    this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
+    this.itemUI.loadItem(this.metadataManager.currentItem);
+    this.lastItemLoad = now;
   }
 
   render() {

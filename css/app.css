@@ -13,7 +13,7 @@ a {
 }
 a:focus {
   outline-style: solid;
-  outline-color: #a80000;
+  outline-color: #fcdf03;
   outline-width: 3px;
 }
 
@@ -77,7 +77,7 @@ ul.menu {
 .item-nav ul.menu li.active {
   display: block;
 }
-.item-nav ul.menu button {
+.item-nav ul.menu .item-button {
   border: none;
   background: none;
   cursor: pointer;
@@ -89,7 +89,7 @@ ul.menu {
   box-sizing: border-box;
   position: relative;
 }
-.item-nav ul.menu button:focus {
+.item-nav ul.menu .item-button:focus {
   outline: 3px solid #fcdf03;
 }
 .item-nav ul.menu img {
@@ -160,6 +160,38 @@ ul.menu {
   line-height: 1;
   font-size: 0.9rem;
 }
+.item-detail .button-group {
+  margin-top: 12px;
+}
+.item-detail .button-group button {
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-left: 12px;
+  color: rgb(27, 19, 12, 0.9);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  border: none;
+  border-top: 1px solid rgb(27, 19, 12, 0.5);
+  border-left: 1px solid rgb(27, 19, 12, 0.5);
+  font-weight: normal;
+  cursor: pointer;
+}
+.item-detail .button-group button:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+.item-detail .button-group button.active {
+  color: #ddd;
+  background: rgba(0, 0, 0, 0.5);
+}
+.item-detail .button-group button.active:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+.item-detail .button-group button:focus {
+  outline: 2px solid #fcdf03;
+}
+.item-detail .button-group button:first-child {
+  margin-left: 0;
+}
 .item-nav ul.menu li:nth-child(5) .item-detail {
   opacity: 1;
   display: block;
@@ -172,6 +204,9 @@ ul.menu {
     font-size: 0.9rem;
   }
   .item-detail h4 {
+    font-size: 0.75rem;
+  }
+  .item-detail .button-group button {
     font-size: 0.75rem;
   }
 }

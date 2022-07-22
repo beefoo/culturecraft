@@ -5,6 +5,7 @@ class ItemUI {
       metadataManager: false,
       minTimeBetweenItemClick: 500,
       onItemChange: false,
+      onItemNext: false,
     };
     this.options = _.extend({}, defaults, options);
     this.init();
@@ -56,6 +57,7 @@ class ItemUI {
 
   loadListeners() {
     this.$menuEl.on('click', '.item-button', (e) => this.onClickItemButton(e));
+    this.$menuEl.on('click', '.load-next-item', (e) => this.onClickNextItemButton(e));
   }
 
   onClickItemButton(event) {
@@ -74,5 +76,9 @@ class ItemUI {
       this.goBack(delta);
       if (this.options.onItemChange) this.options.onItemChange();
     }
+  }
+
+  onClickNextItemButton(event) {
+    if (this.options.onItemNext) this.options.onItemNext();
   }
 }
