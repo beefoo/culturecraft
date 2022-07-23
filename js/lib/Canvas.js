@@ -1,6 +1,8 @@
 class Canvas {
   constructor(options = {}) {
     const defaults = {
+      downloadFilename: 'MyCanvas.png',
+      hiddenContainer: '#hidden-layer',
       padding: 100,
       parent: '#canvas-wrapper',
     };
@@ -17,6 +19,10 @@ class Canvas {
     const $canvas = $('<canvas id="main-canvas" class="canvas" width="300" height="200"></canvas>');
     this.$parent.append($canvas);
     [this.canvas] = $canvas;
+    const $hiddenContainer = $(this.options.hiddenContainer);
+    const $hiddenLink = $(`<a href="#" download="${this.options.downloadFilename}"></a>`);
+    $hiddenContainer.append($hiddenLink);
+    [this.hiddenLink] = $hiddenLink;
     this.onResize();
     this.ctx = this.canvas.getContext('2d');
     this.loadStyle();
@@ -30,6 +36,19 @@ class Canvas {
     this.ctx.ellipse(x, y, 4, 4, 0, 0, 2 * Math.PI);
     this.ctx.fill();
     this.ctx.closePath();
+  }
+
+  // https://stackoverflow.com/questions/12796513/html5-canvas-to-png-file
+  download() {
+    const { canvas } = this;
+    const filename = this.options.downloadFilename;
+    let imageURL = canvas.toDataURL('image/png');
+    // Change MIME type to trick the browser to downlaod the file instead of displaying it
+    imageURL = imageURL.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+    // In addition to <a>'s "download" attribute, you can define HTTP-style headers
+    imageURL = imageURL.replace(/^data:application\/octet-stream/, `data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=${filename}`);
+    this.hiddenLink.href = imageURL;
+    setTimeout(() => this.hiddenLink.click(), 20);
   }
 
   loadListeners() {

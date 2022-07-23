@@ -2,6 +2,7 @@ class OptionsUI {
   constructor(options = {}) {
     const defaults = {
       menuEl: '#options-menu',
+      onCanvasDownload: false,
     };
     this.options = _.extend({}, defaults, options);
     this.init();
@@ -17,6 +18,11 @@ class OptionsUI {
     this.$navEl.removeClass('active');
   }
 
+  downloadCanvas() {
+    if (this.options.onCanvasDownload !== false) this.options.onCanvasDownload();
+    this.closeMenu();
+  }
+
   static isFullScreen() {
     const d = document;
     return (d.fullscreenElement || d.mozFullScreenElement
@@ -29,6 +35,7 @@ class OptionsUI {
     $menuEl.find('.toggle-menu').on('click', (e) => this.toggleMenu());
     $menuEl.find('.toggle-fullscreen').on('click', (e) => this.toggleFullscreen());
     $doc.on('fullscreenchange', (e) => this.onFullscreenChange());
+    $menuEl.find('.download-canvas').on('click', (e) => this.downloadCanvas());
   }
 
   onFullscreenChange() {

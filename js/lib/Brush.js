@@ -6,6 +6,7 @@ class Brush {
       debug: false,
       distanceThreshold: 10,
       pointer: false,
+      spriteContainer: '#hidden-layer',
       spriteW: 512,
       spriteH: 512,
       textureManager: false,
@@ -27,7 +28,7 @@ class Brush {
     this.prevY = this.pointer.y;
     this.hasDrawn = false;
 
-    this.$spriteContainer = $('#hidden-layer');
+    this.$spriteContainer = $(this.options.spriteContainer);
     const $spriteCanvas = $('<canvas></canvas>');
     const [spriteCanvas] = $spriteCanvas;
     spriteCanvas.width = this.options.spriteW;

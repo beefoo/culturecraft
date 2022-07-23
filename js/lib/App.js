@@ -37,7 +37,9 @@ class App {
       onItemNext: () => this.queueNextItem(),
     });
     this.itemUI.loadItem(this.metadataManager.currentItem);
-    this.optionsUI = new OptionsUI();
+    this.optionsUI = new OptionsUI({
+      onCanvasDownload: () => this.canvas.download(),
+    });
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
       onDragEnd: (pointer) => {
