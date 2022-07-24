@@ -13,6 +13,7 @@ class ItemUI {
 
   init() {
     this.$menuEl = $(this.options.menuEl);
+    this.$navEl = this.$menuEl.closest('.nav');
     this.menuItemCount = 5; // hard-coded in CSS; will break UI if value is changed
     this.metadataManager = this.options.metadataManager;
     this.currentItem = false;
@@ -60,6 +61,7 @@ class ItemUI {
     this.$menuEl.on('click', '.item-button', (e) => this.onClickItemButton(e));
     this.$menuEl.on('click', '.load-next-item', (e) => this.onClickNextItemButton(e));
     this.$menuEl.on('click', '.pin-current-item', (e) => this.onClickPinItemButton(e));
+    this.$menuEl.on('click', '.toggle-nav', (e) => this.onClickToggleNav(e));
   }
 
   onClickItemButton(event) {
@@ -91,6 +93,10 @@ class ItemUI {
     this.isPinned = $button.hasClass('active');
     if (this.isPinned) $button.text('Unpin this');
     else $button.text('Pin this');
+  }
+
+  onClickToggleNav(event) {
+    this.$navEl.toggleClass('active');
   }
 
   unpin() {

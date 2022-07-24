@@ -92,6 +92,10 @@ class MetadataManager {
       detailHTML += '<button class="pin-current-item">Pin this</button>';
       detailHTML += '<button class="load-next-item">Next item</button>';
       detailHTML += '</div>';
+      detailHTML += '<button class="toggle-nav" title="Toggle item detail">';
+      detailHTML += '<span aria-hidden="true">+</span>';
+      detailHTML += '<span class="visually-hidden">Toggle item detail</span>';
+      detailHTML += '</button>';
       detailHTML += '</div>';
       updatedRow.thumbHTML = thumbHTML;
       updatedRow.buttonHTML = buttonHTML;
