@@ -103,4 +103,10 @@ class Canvas {
       });
     }
   }
+
+  reset() {
+    const { width, height } = this.canvas;
+    this.ctx.clearRect(0, 0, width, height);
+    this.loadStyle();
+  }
 }

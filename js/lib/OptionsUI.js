@@ -3,6 +3,7 @@ class OptionsUI {
     const defaults = {
       menuEl: '#options-menu',
       onCanvasDownload: false,
+      onCanvasReset: false,
     };
     this.options = _.extend({}, defaults, options);
     this.init();
@@ -36,12 +37,18 @@ class OptionsUI {
     $menuEl.find('.toggle-fullscreen').on('click', (e) => this.toggleFullscreen());
     $doc.on('fullscreenchange', (e) => this.onFullscreenChange());
     $menuEl.find('.download-canvas').on('click', (e) => this.downloadCanvas());
+    $menuEl.find('.reset-canvas').on('click', (e) => this.resetCanvas());
   }
 
   onFullscreenChange() {
     const $button = this.$menuEl.find('.toggle-fullscreen');
     if (OptionsUI.isFullScreen()) $button.addClass('active');
     else $button.removeClass('active');
+  }
+
+  resetCanvas() {
+    if (this.options.onCanvasReset !== false) this.options.onCanvasReset();
+    this.closeMenu();
   }
 
   toggleFullscreen() {

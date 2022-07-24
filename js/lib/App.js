@@ -39,6 +39,7 @@ class App {
     this.itemUI.loadItem(this.metadataManager.currentItem);
     this.optionsUI = new OptionsUI({
       onCanvasDownload: () => this.canvas.download(),
+      onCanvasReset: () => this.canvas.reset(),
     });
     this.pointerManager = new PointerManager({
       debug: this.options.pointerDebug !== undefined,
