@@ -23,6 +23,7 @@ class Pointer {
     this.y = -999;
     this.isPrimary = false;
     this.isActive = false;
+    this.pressure = 0.5;
 
     this.reset();
   }
@@ -42,6 +43,9 @@ class Pointer {
     }
     if (this.currentEvent !== false) this.previousEvent = _.clone(this.currentEvent);
     this.isPrimary = (event.originalEvent && event.originalEvent.isPrimary) || pointerEvent.pointerType === 'mouse';
+    if (event.originalEvent && event.originalEvent.pressure) {
+      this.pressure = event.originalEvent.pressure;
+    }
     this.currentEvent = _.clone(pointerEvent);
     this.x = this.currentEvent.clientX;
     this.y = this.currentEvent.clientY;

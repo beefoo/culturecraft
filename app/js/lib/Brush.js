@@ -55,7 +55,7 @@ class Brush {
     const {
       offsetX, offsetY, prevX, prevY,
     } = this;
-    const { x, y } = pointer;
+    const { x, y, pressure } = pointer;
     const distance = MathUtil.distance(x, y, prevX, prevY);
 
     if (distance < this.options.distanceThreshold && action === 'drag' && !(distance > 0 && !this.hasDrawn)) {
@@ -69,6 +69,7 @@ class Brush {
         action,
         distanceMin: this.options.distanceThreshold,
         mainCtx: canvas.ctx,
+        pressure,
         prevX: prevX + offsetX,
         prevY: prevY + offsetY,
         spriteCtx,

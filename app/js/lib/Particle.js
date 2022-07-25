@@ -6,6 +6,7 @@ class Particle {
       distanceMax: 40,
       mainCtx: false,
       minScale: 0.25,
+      pressure: 0.5,
       prevX: 0,
       prevY: 0,
       spriteCtx: false,
@@ -40,11 +41,15 @@ class Particle {
     }
 
     const { distanceMin, distanceMax } = this.options;
-    this.nDistance = MathUtil.norm(this.distance, distanceMin, distanceMax);
-    this.nDistance = MathUtil.clamp(this.nDistance, 0, 1);
+    this.magnitude = MathUtil.norm(this.distance, distanceMin, distanceMax);
+    this.magnitude = MathUtil.clamp(this.magnitude, 0, 1);
+
+    const { pressure } = this.options;
+    if (pressure > 0.5) this.magnitude = Math.max(this.magnitude, pressure);
+    else if (pressure < 0.5) this.magnitude = Math.min(this.magnitude, pressure);
 
     if (this.options.action === 'tap') {
-      this.nDistance = 0.5;
+      this.magnitude = 0.5;
       this.radians = MathUtil.lerp(-Math.PI, Math.PI, Math.random());
     }
 
@@ -76,7 +81,7 @@ class Particle {
     const textureH = textureImage.height;
     const sampleW = Math.floor(spriteW / Math.SQRT2);
     const sampleH = Math.floor(spriteH / Math.SQRT2);
-    const scale = MathUtil.lerp(this.options.minScale, 1, this.nDistance);
+    const scale = MathUtil.lerp(this.options.minScale, 1, this.magnitude);
 
     if (sampleW > textureW || sampleH > textureH) {
       console.log('Texture image not large enough');
