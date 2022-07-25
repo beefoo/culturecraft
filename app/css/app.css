@@ -159,7 +159,7 @@ ul.menu li {
 .item-nav.active .item-detail {
   max-width: 100vw;
   max-height: 300px;
-  padding: 18px 124px 12px 22px;
+  padding: 18px 124px 18px 27px;
   min-height: 124px;
 }
 .item-detail a {
@@ -278,6 +278,7 @@ ul.menu li {
   border: none;
   padding: 0;
   cursor: pointer;
+  text-decoration: none;
 }
 .option-button svg {
   width: 100%;
