@@ -9,6 +9,9 @@ class Particle {
       pressure: 0.5,
       prevX: 0,
       prevY: 0,
+      scatter: 0,
+      scatterMin: 0,
+      scatterMax: 100,
       spriteCtx: false,
       textureManager: false,
       x: 0,
@@ -30,18 +33,17 @@ class Particle {
     this.texture = this.options.textureManager.currentTexture;
     this.x = this.options.x;
     this.y = this.options.y;
-    this.prevX = this.options.prevX;
-    this.prevY = this.options.prevY;
-    this.distance = 0;
     this.radians = 0;
+    const { prevX, prevY } = this.options;
+    let distance = 0;
 
-    if (this.x !== this.prevX || this.y !== this.prevY) {
-      this.distance = MathUtil.distance(this.prevX, this.prevY, this.x, this.y);
-      this.radians = MathUtil.radiansBetweenPoints(this.prevX, this.prevY, this.x, this.y);
+    if (this.x !== prevX || this.y !== prevY) {
+      distance = MathUtil.distance(prevX, prevY, this.x, this.y);
+      this.radians = MathUtil.radiansBetweenPoints(prevX, prevY, this.x, this.y);
     }
 
     const { distanceMin, distanceMax } = this.options;
-    this.magnitude = MathUtil.norm(this.distance, distanceMin, distanceMax);
+    this.magnitude = MathUtil.norm(distance, distanceMin, distanceMax);
     this.magnitude = MathUtil.clamp(this.magnitude, 0, 1);
 
     const { pressure } = this.options;
@@ -51,6 +53,15 @@ class Particle {
     if (this.options.action === 'tap') {
       this.magnitude = 0.5;
       this.radians = MathUtil.lerp(-Math.PI, Math.PI, Math.random());
+    }
+
+    if (this.options.scatter > 0) {
+      const nscatter = this.options.scatter * this.magnitude;
+      const scatter = MathUtil.lerp(this.options.scatterMin, this.options.scatterMax, nscatter);
+      const scatterX = scatter * MathUtil.lerp(-1, 1, Math.random());
+      const scatterY = scatter * MathUtil.lerp(-1, 1, Math.random());
+      this.x += scatterX;
+      this.y += scatterY;
     }
 
     this.valid = true;

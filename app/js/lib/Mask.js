@@ -7,7 +7,7 @@ class Mask {
       height: 512,
       minThickness: 0.4,
       maxThickness: 1,
-      mode: 'random', // curve, ellipse, quad, random
+      modes: ['circle', 'curve', 'ellipse', 'quad', 'rect'], // randomly choose between these
       nLength: 1, // [0 - 1.] how "long" shapes should be
       shapeCount: 3,
       width: 512,
@@ -83,8 +83,7 @@ class Mask {
   }
 
   addShape(path, i) {
-    let { mode } = this.options;
-    if (mode === 'random') mode = _.sample(['curve', 'ellipse', 'quad']);
+    const mode = _.sample(this.options.modes);
 
     // determine which section bounds
     let bounds = this.middleBounds;
@@ -126,13 +125,14 @@ class Mask {
       leftX = rightX - width;
     }
 
-    if (mode === 'ellipse') {
+    if (mode === 'circle' || mode === 'ellipse') {
       const cx = Math.round(MathUtil.lerp(leftX, rightX, 0.5));
       const cy = Math.round(MathUtil.lerp(topY, bottomY, 0.5));
       const rx = Math.floor(width / 2);
       const ry = Math.floor(height / 2);
       const radians = MathUtil.lerp(Math.PI, 2 * Math.PI, Math.random());
-      Mask.drawEllipse(path, cx, cy, rx, ry, radians);
+      if (mode === 'circle') Mask.drawEllipse(path, cx, cy, ry, ry, radians);
+      else Mask.drawEllipse(path, cx, cy, rx, ry, radians);
       return;
     }
 
@@ -143,18 +143,22 @@ class Mask {
       y: centerY,
     });
     // top side
+    let rand = 0.5;
+    if (mode !== 'rect') rand = Math.random();
     points.push({
-      x: MathUtil.lerp(leftX + 1, rightX - 1, Math.random()),
+      x: MathUtil.lerp(leftX + 1, rightX - 1, rand),
       y: topY,
     });
+    if (mode !== 'rect') rand = Math.random();
     // left side
     points.push({
       x: leftX,
-      y: MathUtil.lerp(topY + 1, bottomY - 1, Math.random()),
+      y: MathUtil.lerp(topY + 1, bottomY - 1, rand),
     });
+    if (mode !== 'rect') rand = Math.random();
     // bottom side
     points.push({
-      x: MathUtil.lerp(leftX + 1, rightX - 1, Math.random()),
+      x: MathUtil.lerp(leftX + 1, rightX - 1, rand),
       y: bottomY,
     });
     points.push(_.clone(points[0]));
