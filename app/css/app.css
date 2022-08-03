@@ -24,7 +24,7 @@ li {
 
 nav {
   opacity: 1;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 ul.menu {
   list-style: none;
@@ -386,7 +386,7 @@ ul.menu li {
   z-index: 100;
 }
 .touchable.active ~ nav {
-  opacity: 0.2;
+  opacity: 0.3333;
 }
 
 .debug-pointer {
