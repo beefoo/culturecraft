@@ -10,14 +10,21 @@ class App {
   }
 
   init() {
+    this.started = false;
     const dataReady = this.loadData();
+    const introReady = this.loadIntro();
 
-    $.when(dataReady).then(() => this.loadMain());
+    $.when(dataReady, introReady).then(() => this.loadMain());
   }
 
   loadData() {
     this.metadataManager = new MetadataManager();
     return this.metadataManager.load();
+  }
+
+  loadIntro() {
+    this.introUI = new IntroUI();
+    return this.introUI.loadImages();
   }
 
   loadMain() {
@@ -54,6 +61,7 @@ class App {
       },
       target: this.options.touchEl,
     });
+    this.introUI.$el.addClass('active');
     this.render();
   }
 
@@ -62,6 +70,7 @@ class App {
   }
 
   onDragStart(pointer) {
+    if (!this.started) this.start();
     this.brushManager.onDragStart(pointer);
   }
 
@@ -97,5 +106,11 @@ class App {
     this.brushManager.render(now);
 
     window.requestAnimationFrame(() => this.render());
+  }
+
+  start() {
+    this.started = true;
+    this.itemUI.$navEl.addClass('active');
+    this.introUI.$el.removeClass('active');
   }
 }

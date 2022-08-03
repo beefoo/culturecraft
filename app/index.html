@@ -23,18 +23,37 @@
 </head>
 
 <body>
-
-  <h1 class="visually-hidden">Culture Craft</h1>
   <div id="hidden-layer" class="visually-hidden"></div>
   <div id="pointer-debug" class="debug"></div>
 
   <div class="wrapper">
 
+    <div id="intro" class="intro">
+      <h1 class="visually-hidden">Culture Craft</h1>
+      <div class="logo">
+        <div class="letter c c1"><img src="img/logo/C.png" alt="A cut out of the letter C" /></div>
+        <div class="letter u u1"><img src="img/logo/U.png" alt="A cut out of the letter U" /></div>
+        <div class="letter l"><img src="img/logo/L.png" alt="A cut out of the letter L" /></div>
+        <div class="letter t t1"><img src="img/logo/T.png" alt="A cut out of the letter T" /></div>
+        <div class="letter u u2"><img src="img/logo/U.png" alt="A cut out of the letter U" /></div>
+        <div class="letter r r1"><img src="img/logo/R.png" alt="A cut out of the letter R" /></div>
+        <div class="letter e"><img src="img/logo/E.png" alt="A cut out of the letter E" /></div>
+        <div class="letter c c2"><img src="img/logo/C.png" alt="A cut out of the letter C" /></div>
+        <div class="letter r r2"><img src="img/logo/R.png" alt="A cut out of the letter R" /></div>
+        <div class="letter a"><img src="img/logo/A.png" alt="A cut out of the letter A" /></div>
+        <div class="letter f"><img src="img/logo/F.png" alt="A cut out of the letter F" /></div>
+        <div class="letter t t2"><img src="img/logo/T.png" alt="A cut out of the letter T" /></div>
+      </div>
+      <div class="prompt">
+        <p>Paint with open culture. Drag your cursor to begin.</p>
+      </div>
+    </div>
+
     <div id="canvas-wrapper" class="canvas-wrapper"></div>
 
     <div id="touchable" class="touchable"></div>
 
-    <nav class="nav item-nav active">
+    <nav class="nav item-nav">
       <ul id="item-menu" class="menu item-menu">
         <li>&nbsp;</li>
         <li>&nbsp;</li>
@@ -177,6 +196,7 @@
   <script src="js/lib/Brush.js"></script>
   <script src="js/lib/BrushManager.js"></script>
   <script src="js/lib/Canvas.js"></script>
+  <script src="js/lib/IntroUI.js"></script>
   <script src="js/lib/ItemUI.js"></script>
   <script src="js/lib/Mask.js"></script>
   <script src="js/lib/MathUtil.js"></script>
