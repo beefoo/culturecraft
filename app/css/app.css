@@ -246,7 +246,7 @@ ul.menu li {
 .item-detail .button-group {
   margin-top: 12px;
 }
-.item-detail .button-group button {
+.item-detail .button-group .button {
   font-size: 1rem;
   display: inline-block;
   margin-left: 12px;
@@ -258,21 +258,25 @@ ul.menu li {
   border-left: 1px solid rgba(27, 19, 12, 0.5);
   font-weight: normal;
   cursor: pointer;
+  line-height: 1.25;
+  -webkit-appearance: button;
+  padding: 1px 6px;
+  text-shadow: none;
 }
-.item-detail .button-group button:hover {
+.item-detail .button-group .button:hover {
   background: rgba(255, 255, 255, 0.75);
 }
-.item-detail .button-group button.active {
+.item-detail .button-group .button.active {
   color: #ddd;
   background: rgba(0, 0, 0, 0.5);
 }
-.item-detail .button-group button.active:hover {
+.item-detail .button-group .button.active:hover {
   background: rgba(0, 0, 0, 0.25);
 }
-.item-detail .button-group button:focus {
+.item-detail .button-group .button:focus {
   outline: 2px solid #fcdf03;
 }
-.item-detail .button-group button:first-child {
+.item-detail .button-group .button:first-child {
   margin-left: 0;
 }
 .item-nav ul.menu li:nth-child(5) .item-detail {

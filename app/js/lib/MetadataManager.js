@@ -89,8 +89,11 @@ class MetadataManager {
       detailHTML += `<h4>${updatedRow.creator}, ${updatedRow.year}</h4>`;
       detailHTML += `<h4>Source: <a href="${row.url}" target="_blank">${updatedRow.collection.name}</a></h4>`;
       detailHTML += '<div class="button-group">';
-      detailHTML += '<button class="pin-current-item">Pin this</button>';
-      detailHTML += '<button class="load-next-item">Next item</button>';
+      // detailHTML += '<button class="button pin-current-item">Pin this</button>';
+      detailHTML += `<label class="button autoplay-label active" for="autoplay-${index}">`;
+      detailHTML += `<input id="autoplay-${index}" type="checkbox" class="toggle-autoplay" name="autoplay" checked="checked" />`;
+      detailHTML += ' Autoplay</label>';
+      detailHTML += '<button class="button load-next-item">Next item</button>';
       detailHTML += '</div>';
       detailHTML += '<button class="toggle-nav" title="Toggle item detail">';
       detailHTML += '<span aria-hidden="true">+</span>';

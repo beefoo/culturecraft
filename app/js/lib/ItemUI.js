@@ -22,6 +22,7 @@ class ItemUI {
     this.buttonTemplate = _.template(buttonHTML);
     this.lastItemClick = 0;
     this.isPinned = false;
+    this.isAutoplay = true;
     this.loadListeners();
   }
 
@@ -48,6 +49,10 @@ class ItemUI {
     if (this.currentItem && item.index === this.currentItem.index) return;
     this.currentItem = item;
     const $li = $(this.buttonTemplate(item));
+    if (!this.isAutoplay) {
+      $li.find('.autoplay-label').removeClass('active');
+      $li.find('.toggle-autoplay').prop('checked', false);
+    }
     this.$menuEl.append($li);
     setTimeout(() => {
       this.$menuEl.find('li:first').remove();
@@ -60,8 +65,21 @@ class ItemUI {
   loadListeners() {
     this.$menuEl.on('click', '.item-button', (e) => this.onClickItemButton(e));
     this.$menuEl.on('click', '.load-next-item', (e) => this.onClickNextItemButton(e));
-    this.$menuEl.on('click', '.pin-current-item', (e) => this.onClickPinItemButton(e));
+    // this.$menuEl.on('click', '.pin-current-item', (e) => this.onClickPinItemButton(e));
     this.$menuEl.on('click', '.toggle-nav', (e) => this.onClickToggleNav(e));
+    this.$menuEl.on('change', '.toggle-autoplay', (e) => this.onChangeAutoplay(e));
+  }
+
+  onChangeAutoplay(event) {
+    const $checkbox = $(event.currentTarget);
+    const isAutoplay = $checkbox.prop('checked');
+    this.isAutoplay = isAutoplay;
+    this.$menuEl.find('.autoplay-label').each((index, el) => {
+      const $label = $(el);
+      if (isAutoplay) $label.addClass('active');
+      else $label.removeClass('active');
+      $label.find('.toggle-autoplay').prop('checked', isAutoplay);
+    });
   }
 
   onClickItemButton(event) {
