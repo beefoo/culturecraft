@@ -3,6 +3,8 @@ class App {
     const defaults = {
       canvasEl: '#canvas-wrapper',
       minTimeBetweenItems: 1000,
+      tapChanceQueueNext: 0.25, // percent chance a tap will queue the next item
+      dragChanceQueueNext: 1, // percent chance a drag will queue the next item
       touchEl: '#touchable',
     };
     const q = StringUtil.queryParams();
@@ -11,6 +13,7 @@ class App {
 
   init() {
     this.started = false;
+    this.firstInteraction = true;
     const dataReady = this.loadData();
     const introReady = this.loadIntro();
 
@@ -66,7 +69,8 @@ class App {
   }
 
   onDragEnd(pointer) {
-    this.queueNextItem(pointer);
+    const random = Math.random();
+    if (random < this.options.dragChanceQueueNext) this.queueNextItem(pointer);
   }
 
   onDragStart(pointer) {
@@ -82,11 +86,14 @@ class App {
   onTap(pointer) {
     this.brushManager.onTap(pointer);
     const random = Math.random();
-    // 1 in 4 chance of queueing the next item
-    if (random < 0.25) this.queueNextItem(pointer);
+    if (random < this.options.tapChanceQueueNext) this.queueNextItem(pointer);
   }
 
   queueNextItem(pointer) {
+    if (pointer !== undefined && this.firstInteraction) {
+      this.firstInteraction = false;
+      return;
+    }
     if (pointer !== undefined && pointer.isPrimary !== true) return;
     if (this.itemUI.isPinned === true) return;
     const now = Date.now();
