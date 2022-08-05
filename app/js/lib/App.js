@@ -90,12 +90,14 @@ class App {
   }
 
   queueNextItem(pointer) {
-    if (pointer !== undefined && this.firstInteraction) {
+    const isPointer = pointer !== undefined;
+    if (isPointer && this.firstInteraction) {
       this.firstInteraction = false;
       return;
     }
-    if (pointer !== undefined && pointer.isPrimary !== true) return;
-    if (pointer !== undefined && this.itemUI.isAutoplay === false) return;
+    if (isPointer && pointer.isPrimary !== true) return;
+    if (isPointer && this.itemUI.isAutoplay === false) return;
+    if (isPointer && pointer.isPointerOut()) return;
     if (this.itemUI.isPinned === true) return;
     const now = Date.now();
     const timeSinceLastLoad = now - this.lastItemLoad;
