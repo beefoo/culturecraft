@@ -16,6 +16,7 @@ class PointerManager {
   init() {
     this.firstTouch = false;
     this.$target = $(this.options.target);
+    [this.target] = this.$target;
     this.pointers = {};
     if (this.options.debug !== false) {
       this.debug = true;
@@ -60,7 +61,7 @@ class PointerManager {
 
   loadListeners() {
     this.$target.on('pointerdown', (e) => this.onPointerStart(e));
-    this.$target.on('pointerup pointercancel pointerout', (e) => this.onPointerEnd(e));
+    this.$target.on('pointerup', (e) => this.onPointerEnd(e));
     this.$target.on('pointermove', (e) => this.onPointerMove(e));
   }
 
@@ -88,6 +89,7 @@ class PointerManager {
   onPointerStart(event) {
     if (!this.firstTouch) this.firstTouch = true;
     this.$target.addClass('active');
+    this.target.setPointerCapture(event.pointerId);
     const pointer = this.getPointer(event);
     pointer.onStart(event);
   }

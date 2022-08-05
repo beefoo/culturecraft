@@ -97,7 +97,6 @@ class App {
     }
     if (isPointer && pointer.isPrimary !== true) return;
     if (isPointer && this.itemUI.isAutoplay === false) return;
-    if (isPointer && pointer.isPointerOut()) return;
     if (this.itemUI.isPinned === true) return;
     const now = Date.now();
     const timeSinceLastLoad = now - this.lastItemLoad;

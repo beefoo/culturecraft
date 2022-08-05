@@ -67,12 +67,6 @@ class Pointer {
     else this.$debug.removeClass('active');
   }
 
-  isPointerOut() {
-    const e = this.currentEvent;
-    return (e.pointerType && e.pointerType === 'mouse'
-      && e.type && (e.type === 'pointerout' || e.type === 'pointercancel'));
-  }
-
   onDrag() {
     this.options.onDrag(this);
   }
