@@ -95,24 +95,55 @@ li {
   color: rgb(27, 19, 12, 0.9);
   font-size: 1.4rem;
 }
+.main h2 {
+  margin-top: 3rem;
+}
+.main > p {
+  font-size: 1.8rem;
+}
 .main a {
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
   color: rgb(27, 19, 12, 0.9);
 }
 .main ul {
-  margin: 0;
+  margin: 2.5rem 0 0 0;
   padding: 0;
   list-style: none;
 }
 .main li {
-  margin: 0;
+  margin: 0 0 2rem;
   padding: 0;
+  display: flex;
+}
+.main .image,
+.main .images {
+  width: 20%;
+  max-width: 128px;
+}
+.main .images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.main img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+.main .images img {
+  width: 50%;
+}
+.main .text {
+  width: 80%;
+  padding-left: 20px;
+  box-sizing: border-box;
 }
 .main h3 {
-  margin-bottom: 0;
+  margin: 0;
+  line-height: 1;
 }
 .main p {
-  margin-top: 0;
+  margin-top: 8px;
 }
 
 .visually-hidden {
