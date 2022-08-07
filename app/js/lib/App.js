@@ -91,10 +91,10 @@ class App {
 
   queueNextItem(pointer) {
     const isPointer = pointer !== undefined;
-    if (isPointer && this.firstInteraction) {
-      this.firstInteraction = false;
-      return;
-    }
+    // if (isPointer && this.firstInteraction) {
+    //   this.firstInteraction = false;
+    //   return;
+    // }
     if (isPointer && pointer.isPrimary !== true) return;
     if (isPointer && this.itemUI.isAutoplay === false) return;
     if (this.itemUI.isPinned === true) return;
