@@ -124,6 +124,8 @@ li {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
+  align-items: flex-start;
+  align-content: flex-start;
 }
 .main img {
   width: 100%;
