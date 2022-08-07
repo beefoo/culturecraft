@@ -20,7 +20,7 @@ li {
 }
 
 .banner {
-  width: 100vw;
+  width: 100%;
   height: 56.25vw;
   position: relative;
 }
@@ -83,6 +83,36 @@ li {
 }
 .banner .button:hover {
   color: #fff;
+}
+
+.main {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 12px;
+  box-sizing: border-box;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  color: rgb(27, 19, 12, 0.9);
+  font-size: 1.4rem;
+}
+.main a {
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  color: rgb(27, 19, 12, 0.9);
+}
+.main ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.main li {
+  margin: 0;
+  padding: 0;
+}
+.main h3 {
+  margin-bottom: 0;
+}
+.main p {
+  margin-top: 0;
 }
 
 .visually-hidden {
