@@ -2,6 +2,7 @@ class BrushManager {
   constructor(options = {}) {
     const defaults = {
       canvas: false,
+      soundManager: false,
       textureManager: false,
     };
     this.options = _.extend({}, defaults, options);
@@ -10,7 +11,6 @@ class BrushManager {
 
   init() {
     this.canvas = this.options.canvas;
-    this.textureManager = this.options.textureManager;
     this.brushes = [];
   }
 
@@ -19,7 +19,8 @@ class BrushManager {
       action,
       canvas: this.canvas,
       pointer,
-      textureManager: this.textureManager,
+      soundManager: this.options.soundManager,
+      textureManager: this.options.textureManager,
     });
     this.brushes.push(brush);
     return brush;

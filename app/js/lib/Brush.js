@@ -9,6 +9,7 @@ class Brush {
       spriteContainer: '#hidden-layer',
       spriteW: 512,
       spriteH: 512,
+      soundManager: false,
       textureManager: false,
     };
     this.options = _.extend({}, defaults, options);
@@ -21,6 +22,7 @@ class Brush {
     this.offsetX = this.canvas.offsetX;
     this.offsetY = this.canvas.offsetY;
     this.pointer = this.options.pointer;
+    this.soundManager = this.options.soundManager;
     this.textureManager = this.options.textureManager;
     this.isRemoved = false;
     this.timeCreated = Date.now();
@@ -50,7 +52,7 @@ class Brush {
     if (this.canvas === false || this.pointer === false || this.isRemoved) return;
 
     const {
-      action, canvas, pointer, spriteCtx, textureManager,
+      action, canvas, pointer, soundManager, spriteCtx, textureManager,
     } = this;
     const {
       offsetX, offsetY, prevX, prevY,
@@ -78,6 +80,8 @@ class Brush {
         y: y + offsetY,
       });
       particle.render();
+      if (action === 'tap') soundManager.playRandom(0.5, 1);
+      else soundManager.playValue(particle.magnitude);
       this.prevX = x;
       this.prevY = y;
     }

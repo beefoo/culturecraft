@@ -35,10 +35,12 @@ class App {
     this.canvas = new Canvas({
       parent: this.options.canvasEl,
     });
+    this.soundManager = new SoundManager();
     this.textureManager = new TextureManager();
     this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
     this.brushManager = new BrushManager({
       canvas: this.canvas,
+      soundManager: this.soundManager,
       textureManager: this.textureManager,
     });
     this.itemUI = new ItemUI({
