@@ -34,12 +34,17 @@ class SoundManager {
 
   play(id) {
     if (!this.loaded || !this.enabled) return;
+    if (this.audioContextIsResuming === true) return;
     const now = Date.now();
     const timeSinceLastPlay = now - this.lastPlayTime;
     if (timeSinceLastPlay < this.options.minTimeBetweenTriggers) return;
     if (this.firstPlay) {
       this.firstPlay = false;
-      Howler.ctx.resume();
+      this.audioContextIsResuming = true;
+      Howler.ctx.resume().then(() => {
+        this.audioContextIsResuming = false;
+      });
+      return;
     }
     this.sound.play(id);
     this.lastPlayTime = now;
