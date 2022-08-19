@@ -40,6 +40,25 @@ class Brush {
     this.spriteCtx = spriteCanvas.getContext('2d');
   }
 
+  playSound(action, particle) {
+    const { soundManager } = this;
+    if (action === 'tap') soundManager.playRandom(0.5, 1);
+    else {
+      const variance = 0.2;
+      let minValue = particle.magnitude - variance / 2;
+      let maxValue = particle.magnitude + variance / 2;
+      if (minValue < 0) {
+        maxValue += (-minValue);
+        minValue = 0;
+      }
+      if (maxValue > 1) {
+        minValue -= (maxValue - 1);
+        maxValue = 1;
+      }
+      soundManager.playRandom(minValue, maxValue);
+    }
+  }
+
   remove() {
     this.$spriteContainer[0].removeChild(this.spriteCanvas);
     this.canvas = false;
@@ -80,8 +99,7 @@ class Brush {
         y: y + offsetY,
       });
       particle.render();
-      if (action === 'tap') soundManager.playRandom(0.5, 1);
-      else soundManager.playValue(particle.magnitude);
+      this.playSound(action, particle);
       this.prevX = x;
       this.prevY = y;
     }
