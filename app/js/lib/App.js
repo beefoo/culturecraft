@@ -106,6 +106,7 @@ class App {
     this.metadataManager.queueNext();
     this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
     this.itemUI.loadItem(this.metadataManager.currentItem);
+    this.soundManager.loadRandomSpriteGroup();
     this.lastItemLoad = now;
   }
 

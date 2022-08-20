@@ -99,7 +99,7 @@ class Brush {
         y: y + offsetY,
       });
       particle.render();
-      this.playSound(action, particle);
+      soundManager.playRandomInGroup();
       this.prevX = x;
       this.prevY = y;
     }
