@@ -21,20 +21,21 @@ class SoundManager {
 
   loadRandomSpriteGroup() {
     this.spriteGroup = _.sample(this.spriteGroups);
+    console.log(this.spriteGroup.title, this.spriteGroup.url);
   }
 
   loadSprite(audioPath, dataPath) {
-    $.getJSON(dataPath, (spriteData) => {
-      this.onSpriteDataLoad(audioPath, spriteData);
+    $.getJSON(dataPath, (data) => {
+      this.onSpriteDataLoad(audioPath, data);
     });
   }
 
-  onSpriteDataLoad(audioPath, spriteData) {
+  onSpriteDataLoad(audioPath, data) {
+    const spriteData = data.sprites;
+    const groupData = data.groups;
     const keys = _.keys(spriteData);
     this.spriteCount = keys.length;
-    const groupCount = this.options.spriteGroups;
-    const groupSize = Math.floor(this.spriteCount / groupCount);
-    this.spriteGroups = _.times(groupCount, (i) => keys.slice(i * groupSize, (i + 1) * groupSize));
+    this.spriteGroups = groupData;
     this.loadRandomSpriteGroup();
     this.sound = new Howl({
       src: [audioPath],
@@ -69,7 +70,7 @@ class SoundManager {
   }
 
   playRandomInGroup() {
-    const id = _.sample(this.spriteGroup);
+    const id = _.sample(this.spriteGroup.sprites);
     this.play(id);
   }
 
