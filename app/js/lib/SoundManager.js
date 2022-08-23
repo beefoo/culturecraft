@@ -17,6 +17,11 @@ class SoundManager {
     this.lastPlayTime = 0;
     this.spriteGroup = false;
     this.loadSprite(this.options.audioPath, this.options.spriteDataPath);
+    this.loadListeners();
+  }
+
+  loadListeners() {
+    $('.toggle-sound').on('click', (e) => this.toggleSound(e));
   }
 
   loadRandomSpriteGroup() {
@@ -77,5 +82,11 @@ class SoundManager {
   playValue(value) {
     const index = Math.round(value * (this.spriteCount - 1));
     this.play(String(index));
+  }
+
+  toggleSound(event) {
+    const $el = $(event.currentTarget);
+    $el.toggleClass('active');
+    this.enabled = $el.hasClass('active');
   }
 }
