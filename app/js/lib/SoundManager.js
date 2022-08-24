@@ -5,6 +5,8 @@ class SoundManager {
       minTimeBetweenTriggers: 50,
       spriteDataPath: 'audio/culturecraft_sounds.json',
       spriteGroups: 10,
+      volumeMin: 0.5,
+      volumeMax: 1,
     };
     this.options = _.extend({}, defaults, options);
     this.init();
@@ -25,7 +27,11 @@ class SoundManager {
   }
 
   loadRandomSpriteGroup() {
-    this.spriteGroup = _.sample(this.spriteGroups);
+    let groups = this.spriteGroups;
+    if (this.spriteGroup !== false) {
+      groups = _.reject(this.spriteGroups, (g) => (g.id === this.spriteGroup.id));
+    }
+    this.spriteGroup = _.sample(groups);
     console.log(this.spriteGroup.title, this.spriteGroup.url);
   }
 
@@ -51,7 +57,7 @@ class SoundManager {
     });
   }
 
-  play(id) {
+  play(id, volume) {
     if (!this.loaded || !this.enabled) return;
     if (this.audioContextIsResuming === true) return;
     const now = Date.now();
@@ -65,6 +71,9 @@ class SoundManager {
       });
       return;
     }
+    if (volume !== undefined) {
+      Howler.volume(volume, id);
+    }
     this.sound.play(id);
     this.lastPlayTime = now;
   }
@@ -74,9 +83,10 @@ class SoundManager {
     this.playValue(value);
   }
 
-  playRandomInGroup() {
+  playRandomInGroup(value = 1) {
+    const volume = MathUtil.lerp(this.options.volumeMin, this.options.volumeMax, value);
     const id = _.sample(this.spriteGroup.sprites);
-    this.play(id);
+    this.play(id, volume);
   }
 
   playValue(value) {

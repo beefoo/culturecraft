@@ -41,22 +41,8 @@ class Brush {
   }
 
   playSound(action, particle) {
-    const { soundManager } = this;
-    if (action === 'tap') soundManager.playRandom(0.5, 1);
-    else {
-      const variance = 0.2;
-      let minValue = particle.magnitude - variance / 2;
-      let maxValue = particle.magnitude + variance / 2;
-      if (minValue < 0) {
-        maxValue += (-minValue);
-        minValue = 0;
-      }
-      if (maxValue > 1) {
-        minValue -= (maxValue - 1);
-        maxValue = 1;
-      }
-      soundManager.playRandom(minValue, maxValue);
-    }
+    const value = action === 'tap' ? 1 : particle.magnitude;
+    this.soundManager.playRandomInGroup(value);
   }
 
   remove() {
@@ -99,7 +85,7 @@ class Brush {
         y: y + offsetY,
       });
       particle.render();
-      soundManager.playRandomInGroup();
+      this.playSound(action, particle);
       this.prevX = x;
       this.prevY = y;
     }
