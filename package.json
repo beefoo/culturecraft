@@ -2,6 +2,7 @@
   "name": "culturecraft",
   "description": "Paint with open culture",
   "scripts": {
+    "credits": "node credits.js",
     "ingest": "node ingest.js",
     "ingest-reset": "node ingest.js -reset",
     "lint": "./node_modules/.bin/eslint",
@@ -11,6 +12,7 @@
     "csv-parser": "^3.0.0",
     "express": "^4.17.2",
     "sharp": "^0.30.4",
+    "underscore": "^1.13.4",
     "yargs": "^17.5.1"
   },
   "devDependencies": {

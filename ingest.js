@@ -4,33 +4,10 @@ const path = require('path');
 const sharp = require('sharp');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
+const utils = require('./utils');
 const config = require('./config.json');
 
 const { argv } = yargs(hideBin(process.argv));
-
-function emptyDirectory(dirName) {
-  fs.readdirSync(dirName, (readErr, files) => {
-    if (readErr) throw readErr;
-
-    files.forEach((file, i) => {
-      fs.unlinkSync(path.join(dirName, file), (unlinkErr) => {
-        if (unlinkErr) throw unlinkErr;
-      });
-    });
-  });
-  console.log(`Emptied ${dirName}`);
-}
-
-function readMetadata(cfg, onFinished) {
-  const metadata = [];
-  fs.createReadStream(cfg.dataFile)
-    .pipe(csv())
-    .on('data', (data) => metadata.push(data))
-    .on('end', () => {
-      onFinished(cfg, metadata);
-      console.log(`Read ${metadata.length} rows from ${cfg.dataFile}`);
-    });
-}
 
 function resizeImage(cfg, metadata, i) {
   const item = metadata[i];
@@ -90,23 +67,14 @@ function writeMetadata(cfg, metadata) {
 }
 
 if (argv.reset) {
-  emptyDirectory(`${config.targetImageDirectory}/texture`);
-  emptyDirectory(`${config.targetImageDirectory}/thumb`);
+  utils.emptyDirectory(fs, `${config.targetImageDirectory}/texture`);
+  utils.emptyDirectory(fs, `${config.targetImageDirectory}/thumb`);
 }
 
-readMetadata(config, (cfg, rawData) => {
-  const metadata = rawData.map((item) => {
-    const newItem = { ...item };
-    newItem.index = parseInt(item.index, 10);
-    return newItem;
-  });
-  metadata.sort((a, b) => {
-    if (a.index > b.index) return 1;
-    if (b.index > a.index) return -1;
-    return 0;
-  });
-  resizeImages(cfg, metadata);
-  writeMetadata(cfg, metadata);
+utils.readCSV(fs, csv, config.dataFile, (rawData) => {
+  const metadata = utils.parseData(rawData);
+  resizeImages(config, metadata);
+  writeMetadata(config, metadata);
 });
 
 console.log('Done.');
