@@ -71,9 +71,10 @@ li {
 .banner h2 span:first-child {
   color: #e7cecd;
 }
-.banner .button {
+.button {
   background-color: #447037;
   color: #eae6d4;
+  font-weight: bold;
   text-decoration: none;
   padding: 1rem 2rem;
   font-size: 3.2vmin;
@@ -81,7 +82,7 @@ li {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
   letter-spacing: 1px;
 }
-.banner .button:hover {
+.button:hover {
   color: #fff;
 }
 
@@ -94,6 +95,10 @@ li {
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
   color: rgb(27, 19, 12, 0.9);
   font-size: 1.4rem;
+}
+.main h1 a {
+  text-decoration: none;
+  font-style: italic;
 }
 .main h2 {
   margin-top: 3rem;
@@ -146,6 +151,65 @@ li {
 }
 .main p {
   margin-top: 8px;
+}
+.main .button {
+  color: #eae6d4;
+}
+.main .button:hover {
+  color: #fff;
+}
+
+.main.credits {
+  max-width: 1600px;
+}
+.main.credits h2 {
+  border-top: 2px solid #222;
+  padding-top: 1rem;
+}
+.main.credits h1 + h2 {
+  margin-top: 1.5rem;
+}
+.main .item-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.main .item-list li {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: 300px;
+  gap: 0.8rem;
+}
+.main .item-list .image {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 80px;
+}
+.main .item-list .details {
+  flex-grow: 1;
+}
+.main .item-list img {
+  width: 100%;
+  height: auto;
+}
+.main .item-list h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+.main .item-list h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+.main .item-list p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1;
 }
 
 .visually-hidden {

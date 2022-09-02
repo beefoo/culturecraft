@@ -9,10 +9,10 @@
   "collections": [
     {
       "id": "met",
-      "name": "The Metropalitan Museum of Art",
+      "name": "The Metropolitan Museum of Art",
       "collection": "Open Access at The Met",
       "url": "https://www.metmuseum.org/about-the-met/policies-and-documents/open-access",
-      "description": "The Metropalitan Museum of Art is the most popular art museum in the United States.",
+      "description": "The Metropolitan Museum of Art is the most popular art museum in the United States.",
       "sampleItems": [64, 66, 86, 107]
     },{
       "id": "si",
@@ -48,7 +48,9 @@
       "collection": "Citizen DJ at the Library of Congress",
       "url": "https://citizen-dj.labs.loc.gov/",
       "description": "Audio provided by Citizen DJ at the Library of Congress, the largest library in the world.",
-      "image": "app/img/citizen_dj_logo.jpg"
+      "image": "app/img/citizen_dj_logo.jpg",
+      "imageAlt": "A simple white outline of a head with headphones with Citizen DJ text inside on a navy blue background",
+      "imageTitle": "Citizen DJ logo"
     }
   ]
 }
