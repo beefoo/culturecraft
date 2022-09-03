@@ -70,12 +70,26 @@ ul.menu li {
 }
 .intro.active {
   opacity: 1;
+  z-index: 101;
+}
+.intro.active.started {
+  z-index: 0;
+}
+.intro.active ~ nav {
+  display: none;
+}
+.intro.active.started ~ nav {
+  display: block;
 }
 .intro .logo {
   width: 80%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+}
+.intro.started .logo,
+.intro.started .start-button {
+  display: none;
 }
 .logo .letter {
   margin-left: -2vmin;
@@ -111,16 +125,44 @@ ul.menu li {
   width: 100%;
   height: auto;
 }
+.intro .start {
+  z-index: 100;
+  margin-top: 3vmin;
+}
+.start-button {
+  background-color: #447037;
+  color: #eae6d4;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  font-size: 3.2vmin;
+  margin-top: 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
+  cursor: pointer;
+  opacity: 0;
+  animation: bounceInUp 1s;
+  animation-fill-mode: both;
+  animation-delay: 0.5s;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.start-button:hover {
+  color: #fff;
+}
 .intro .prompt {
   width: 80%;
   text-align: center;
+  display: none;
 }
 .intro .prompt p {
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
   color: rgb(27, 19, 12, 0.9);
   font-size: 1.4rem;
   font-weight: bold;
-  margin-top: 12vmin;
+  margin-top: 0;
+}
+.intro.started .prompt {
+  display: block;
 }
 
 .item-nav {

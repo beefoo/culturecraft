@@ -9,6 +9,7 @@ class IntroUI {
 
   init() {
     this.$el = $(this.options.el);
+    this.loadListeners();
   }
 
   loadImages() {
@@ -28,5 +29,11 @@ class IntroUI {
       allLoadedPromise.resolve();
     });
     return allLoadedPromise;
+  }
+
+  loadListeners() {
+    $('.start-button').on('click', (e) => {
+      this.$el.addClass('started');
+    });
   }
 }
