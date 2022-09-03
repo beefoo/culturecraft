@@ -36,4 +36,8 @@ class IntroUI {
       this.$el.addClass('started');
     });
   }
+
+  start() {
+    this.$el.removeClass('active');
+  }
 }

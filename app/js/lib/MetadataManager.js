@@ -80,12 +80,12 @@ class MetadataManager {
       thumbHTML += ` alt="Thumbnail image of ${row.title}"`;
       thumbHTML += ` title="${row.title}" />`;
       let buttonHTML = '';
-      buttonHTML += `<button class="item-button" data-item-index="${index}">`;
+      buttonHTML += `<button class="item-button toggle-tabindex" data-item-index="${index}">`;
       buttonHTML += thumbHTML;
       buttonHTML += '</button>';
       let detailHTML = '';
       detailHTML += '<div class="item-detail">';
-      detailHTML += `<h3><a href="${row.url}" target="_blank">${row.title}</a></h3>`;
+      detailHTML += `<h3><a href="${row.url}" target="_blank" class="toggle-tabindex">${row.title}</a></h3>`;
       if (updatedRow.creator !== '' && updatedRow.year !== '') {
         detailHTML += `<h4>${updatedRow.creator}, ${updatedRow.year}</h4>`;
       } else if (updatedRow.creator !== '') {
@@ -93,13 +93,13 @@ class MetadataManager {
       } else if (updatedRow.year !== '') {
         detailHTML += `<h4>${updatedRow.year}</h4>`;
       }
-      detailHTML += `<h4>Source: <a href="${row.url}" target="_blank">${updatedRow.collection.name}</a></h4>`;
+      detailHTML += `<h4>Source: <a href="${row.url}" target="_blank" class="toggle-tabindex">${updatedRow.collection.name}</a></h4>`;
       detailHTML += '<div class="button-group">';
-      // detailHTML += '<button class="button pin-current-item">Pin this</button>';
+      // detailHTML += '<button class="button pin-current-item toggle-tabindex">Pin this</button>';
       detailHTML += `<label class="button autoplay-label active" for="autoplay-${index}">`;
-      detailHTML += `<input id="autoplay-${index}" type="checkbox" class="toggle-autoplay" name="autoplay" checked="checked" />`;
+      detailHTML += `<input id="autoplay-${index}" type="checkbox" class="toggle-autoplay toggle-tabindex" name="autoplay" checked="checked" />`;
       detailHTML += ' Autoplay</label>';
-      detailHTML += '<button class="button load-next-item">Next item</button>';
+      detailHTML += '<button class="button load-next-item toggle-tabindex">Next item</button>';
       detailHTML += '</div>';
       detailHTML += '<button class="toggle-nav" title="Toggle item detail">';
       detailHTML += '<span aria-hidden="true">+</span>';

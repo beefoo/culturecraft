@@ -26,6 +26,10 @@ class ItemUI {
     this.loadListeners();
   }
 
+  isActive() {
+    return this.$navEl.hasClass('active');
+  }
+
   goBack(delta) {
     const { history } = this.metadataManager;
     const historyCount = history.length;
@@ -52,6 +56,9 @@ class ItemUI {
     if (!this.isAutoplay) {
       $li.find('.autoplay-label').removeClass('active');
       $li.find('.toggle-autoplay').prop('checked', false);
+    }
+    if (!this.isActive()) {
+      $li.find('.toggle-tabindex').attr('tabindex', '-1');
     }
     this.$menuEl.append($li);
     setTimeout(() => {
@@ -115,6 +122,16 @@ class ItemUI {
 
   onClickToggleNav(event) {
     this.$navEl.toggleClass('active');
+    if (this.isActive()) {
+      this.$menuEl.find('.toggle-tabindex').attr('tabindex', '0');
+    } else {
+      this.$menuEl.find('.toggle-tabindex').attr('tabindex', '-1');
+    }
+  }
+
+  start() {
+    this.$navEl.addClass('active');
+    this.$menuEl.find('.toggle-tabindex').attr('tabindex', '0');
   }
 
   unpin() {

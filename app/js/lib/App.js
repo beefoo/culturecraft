@@ -122,7 +122,7 @@ class App {
 
   start() {
     this.started = true;
-    this.itemUI.$navEl.addClass('active');
-    this.introUI.$el.removeClass('active');
+    this.itemUI.start();
+    this.introUI.start();
   }
 }
