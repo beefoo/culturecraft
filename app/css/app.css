@@ -11,7 +11,8 @@ a {
   color: white;
   font-weight: bold;
 }
-a:focus {
+a:focus,
+button:focus {
   outline-style: solid;
   outline-color: #fcdf03;
   outline-width: 3px;
@@ -382,7 +383,7 @@ ul.menu li {
 }
 .options-menu li {
   width: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: width 0.25s ease-in-out;
 }
 .options-nav .options-menu li.toggle-menu-item,

@@ -73,5 +73,8 @@ class OptionsUI {
 
   toggleMenu() {
     this.$navEl.toggleClass('active');
+    const isActive = this.$navEl.hasClass('active');
+    if (isActive) this.$menuEl.find('.toggle-tabindex').attr('tabindex', '0');
+    else this.$menuEl.find('.toggle-tabindex').attr('tabindex', '-1');
   }
 }

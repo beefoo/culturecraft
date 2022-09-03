@@ -55,16 +55,6 @@
 
     <div id="touchable" class="touchable"></div>
 
-    <nav class="nav item-nav">
-      <ul id="item-menu" class="menu item-menu">
-        <li>&nbsp;</li>
-        <li>&nbsp;</li>
-        <li>&nbsp;</li>
-        <li>&nbsp;</li>
-        <li>&nbsp;</li>
-      </ul>
-    </nav>
-
     <nav class="nav options-nav">
       <ul id="options-menu" class="menu options-menu">
         <li class="toggle-menu-item">
@@ -80,7 +70,7 @@
           </button>
         </li>
         <li>
-          <a href="/" class="option-button" title="Return to project homepage">
+          <a href="/" class="option-button toggle-tabindex" title="Return to project homepage" tabindex="-1">
             <span class="visually-hidden">Return to project homepage</span>
             <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M 685.58646,282.88882 397.53538,54.070777 C 371.38629,33.299995 328.49643,33.145826 302.20535,53.74325 L 14.451784,279.13984 c -3.285811,2.57258 -5.9746932,8.08775 -5.9746932,12.26097 v 32.52543 c 0,4.17322 3.4178002,7.61226 7.5964342,7.6439 l 54.648565,0.38035 c 4.178499,0.0317 7.643902,3.47068 7.702053,7.6439 l 0.0898,261.0987 c 0,33.39635 21.959497,60.72333 48.822627,60.72333 26.8469,0 128.04614,0.19017 128.04614,0.19017 8.34659,-0.0581 15.17746,-6.93608 15.17746,-15.28834 V 481.15543 c 0,-16.69884 13.66146,-30.35896 30.35896,-30.35896 h 101.76993 c 16.69885,0 30.35896,13.66147 30.35896,30.35896 v 165.14929 c 0,8.35186 6.83046,15.2302 15.17746,15.28835 0,0 96.84601,-0.19017 123.69833,-0.19017 26.86177,0 48.82263,-27.31617 48.82263,-60.72333 l 0.005,-261.07165 c 0,-4.17323 3.4178,-7.61226 7.58588,-7.64391 l 55.59927,-0.38563 c 4.17322,-0.0316 7.58589,-3.47068 7.58589,-7.6439 V 295.2078 c 0.0108,-4.17849 -2.67306,-9.71476 -5.93764,-12.30857 z m -335.58627,-11.5637 c -29.33929,0 -53.12717,-23.79329 -53.12717,-53.13257 0,-29.32982 23.78788,-53.12717 53.12717,-53.12717 29.33929,0 53.12717,23.79329 53.12717,53.12717 0,29.34469 -23.78788,53.13257 -53.12717,53.13257 z" />
@@ -90,7 +80,7 @@
           </a>
         </li>
         <li>
-          <button class="option-button reset-canvas" title="Blank canvas">
+          <button class="option-button reset-canvas toggle-tabindex" title="Blank canvas" tabindex="-1">
             <span class="visually-hidden">Blank canvas</span>
             <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M 256.01307,171.18494 V 28.327503 L 88.816047,204.1949 H 222.95826 c 18.22411,0.0109 33.05073,-14.80624 33.05073,-33.01947 z" />
@@ -101,7 +91,7 @@
           </button>
         </li>
         <li style="display: none;">
-          <button class="option-button toggle-modal" data-modal="#modal-settings" title="Settings">
+          <button class="option-button toggle-modal toggle-tabindex" data-modal="#modal-settings" title="Settings" tabindex="-1">
             <span class="visually-hidden">Settings</span>
             <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M 167.20703,146.75907 V 37.150405 c 0,-15.533078 -12.59139,-28.129236 -28.11833,-28.129236 -15.53308,0 -28.12923,12.591383 -28.12923,28.129236 V 146.76317 c 8.9147,-2.67488 18.34041,-4.1563 28.12923,-4.1563 9.78324,0 19.19298,1.48128 28.11833,4.15098 z" />
@@ -119,7 +109,7 @@
           </button>
         </li>
         <li style="display: none;">
-          <button class="option-button toggle-modal" data-modal="#modal-browse" title="Browse images">
+          <button class="option-button toggle-modal toggle-tabindex" data-modal="#modal-browse" title="Browse images" tabindex="-1">
             <span class="visually-hidden">Browse images</span>
             <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M 174.83701,5.5116503 H 36.44993 c -17.056601,0 -30.9485084,13.8809947 -30.9485084,30.9375957 l 0.00532,138.400724 c 0,17.06751 13.8809954,30.94851 30.9485074,30.94851 H 174.84233 c 17.0566,0 30.94851,-13.881 30.94851,-30.94851 l -0.005,-138.400724 c 0,-17.051144 -13.88099,-30.9375957 -30.9485,-30.9375957 z" />
@@ -137,7 +127,7 @@
           </button>
         </li>
         <li>
-          <button class="option-button download-canvas" title="Download canvas">
+          <button class="option-button download-canvas toggle-tabindex" title="Download canvas" tabindex="-1">
             <span class="visually-hidden">Download canvas</span>
             <svg version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M 652.38754,579.21804 H 47.612456 c -24.123437,0 -43.6833883,19.55858 -43.6833883,43.68339 0,24.12344 19.5585783,43.68339 43.6833883,43.68339 H 652.38754 c 24.12344,0 43.68339,-19.55858 43.68339,-43.68339 0,-24.12344 -19.55858,-43.68339 -43.68339,-43.68339 z" />
@@ -148,7 +138,7 @@
           </button>
         </li>
         <li>
-          <button class="option-button toggle-sound active" title="Toggle sound">
+          <button class="option-button toggle-sound active toggle-tabindex" title="Toggle sound" tabindex="-1">
             <span class="visually-hidden">Toggle sound</span>
             <svg class="active-on" version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M 374.57933,46.253727 174.41871,207.54112 c -3.67744,2.70896 -10.4322,4.93094 -15.00071,4.94873 l -101.683304,0.33864 c -27.405929,0.0595 -49.8325573,22.527 -49.8325573,49.93293 v 159.76653 c 0,27.41658 22.4266283,49.85538 49.8264743,49.88579 l 101.683297,0.19011 c 4.56259,0.0178 11.21636,2.35262 14.78689,5.22203 l 201.11876,175.46183 c 13.53917,12.25008 24.64861,7.30728 24.64861,-10.94306 V 58.059964 c 0,-18.268592 -11.45392,-23.591608 -25.38471,-11.822267 z" />
@@ -166,7 +156,7 @@
           </button>
         </li>
         <li>
-          <button class="option-button toggle-fullscreen" title="Toggle fullscreen">
+          <button class="option-button toggle-fullscreen toggle-tabindex" title="Toggle fullscreen" tabindex="-1">
             <span class="visually-hidden">Toggle fullscreen</span>
             <svg class="active-on" version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="m 105.11909,279.32076 c -5.903282,5.91387 -8.122278,11.68438 -6.243036,16.23883 1.895146,4.58137 7.559506,7.10302 15.904526,7.10302 h 171.54813 c 4.27872,0 8.31865,-1.67227 11.37643,-4.72474 3.03128,-3.04188 4.71944,-7.08698 4.70341,-11.37113 l 0.0159,-171.53455 c 0,-8.37179 -2.51105,-14.01957 -7.11362,-15.915392 -4.56546,-1.879242 -10.31463,0.345067 -16.22389,6.226992 L 239.63889,144.79185 102.59608,7.7354453 7.5236473,102.81331 144.56646,239.86971 Z" />
@@ -186,6 +176,16 @@
             </svg>
           </button>
         </li>
+      </ul>
+    </nav>
+
+    <nav class="nav item-nav">
+      <ul id="item-menu" class="menu item-menu">
+        <li>&nbsp;</li>
+        <li>&nbsp;</li>
+        <li>&nbsp;</li>
+        <li>&nbsp;</li>
+        <li>&nbsp;</li>
       </ul>
     </nav>
 
