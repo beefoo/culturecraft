@@ -86,7 +86,13 @@ class MetadataManager {
       let detailHTML = '';
       detailHTML += '<div class="item-detail">';
       detailHTML += `<h3><a href="${row.url}" target="_blank">${row.title}</a></h3>`;
-      detailHTML += `<h4>${updatedRow.creator}, ${updatedRow.year}</h4>`;
+      if (updatedRow.creator !== '' && updatedRow.year !== '') {
+        detailHTML += `<h4>${updatedRow.creator}, ${updatedRow.year}</h4>`;
+      } else if (updatedRow.creator !== '') {
+        detailHTML += `<h4>${updatedRow.creator}</h4>`;
+      } else if (updatedRow.year !== '') {
+        detailHTML += `<h4>${updatedRow.year}</h4>`;
+      }
       detailHTML += `<h4>Source: <a href="${row.url}" target="_blank">${updatedRow.collection.name}</a></h4>`;
       detailHTML += '<div class="button-group">';
       // detailHTML += '<button class="button pin-current-item">Pin this</button>';
