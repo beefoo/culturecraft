@@ -142,7 +142,7 @@ class Pointer {
   update(now) {
     if (this.isRemoved) return;
 
-    if (this.isEnded && this.pointerType !== 'mouse') {
+    if (this.isEnded && this.pointerType !== 'mouse' && this.pointerType !== 'keyboard') {
       const timeSinceLastEnded = now - this.finalEvent.time;
       if (timeSinceLastEnded > this.options.removeThreshold) {
         this.remove();

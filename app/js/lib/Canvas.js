@@ -27,7 +27,6 @@ class Canvas {
     this.ctx = this.canvas.getContext('2d');
     this.loadStyle();
     this.initialized = true;
-    this.loadListeners();
   }
 
   debug(x, y) {
@@ -49,11 +48,6 @@ class Canvas {
     imageURL = imageURL.replace(/^data:application\/octet-stream/, `data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=${filename}`);
     this.hiddenLink.href = imageURL;
     setTimeout(() => this.hiddenLink.click(), 20);
-  }
-
-  loadListeners() {
-    const delayedResize = _.debounce((e) => this.onResize(), 250);
-    this.$window.on('resize', delayedResize);
   }
 
   loadStyle() {

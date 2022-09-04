@@ -12,6 +12,7 @@ class App {
   }
 
   init() {
+    this.$window = $(window);
     this.started = false;
     this.firstInteraction = true;
     const dataReady = this.loadData();
@@ -28,6 +29,11 @@ class App {
   loadIntro() {
     this.introUI = new IntroUI();
     return this.introUI.loadImages();
+  }
+
+  loadListeners() {
+    const delayedResize = _.debounce((e) => this.onResize(), 250);
+    this.$window.on('resize', delayedResize);
   }
 
   loadMain() {
@@ -66,7 +72,22 @@ class App {
       },
       target: this.options.touchEl,
     });
+    this.keyboardManager = new KeyboardManager({
+      pointer: new Pointer({
+        id: 'keyboard',
+        onDragEnd: (pointer) => {
+          this.onDragEnd(pointer);
+        },
+        onDragStart: (pointer) => {
+          this.onDragStart(pointer);
+        },
+        onTap: (pointer) => {
+          this.onTap(pointer);
+        },
+      }),
+    });
     this.introUI.$el.addClass('active');
+    this.loadListeners();
     this.render();
   }
 
@@ -83,6 +104,11 @@ class App {
   onItemChange() {
     this.textureManager.loadTexture(this.metadataManager.currentItem.textureUrl);
     this.lastItemLoad = Date.now();
+  }
+
+  onResize() {
+    this.canvas.onResize();
+    this.keyboardManager.onResize();
   }
 
   onTap(pointer) {
