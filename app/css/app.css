@@ -306,7 +306,6 @@ ul.menu li {
   font-weight: normal;
   cursor: pointer;
   line-height: 1.25;
-  -webkit-appearance: button;
   padding: 1px 6px;
   text-shadow: none;
 }

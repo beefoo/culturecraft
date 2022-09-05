@@ -57,7 +57,7 @@ class Brush {
     if (this.canvas === false || this.pointer === false || this.isRemoved) return;
 
     const {
-      action, canvas, pointer, soundManager, spriteCtx, textureManager,
+      action, canvas, pointer, spriteCtx, textureManager,
     } = this;
     const {
       offsetX, offsetY, prevX, prevY,
