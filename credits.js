@@ -6,6 +6,7 @@ const utils = require('./utils');
 const config = require('./config.json');
 const sounds = require('./ui/app/audio/culturecraft_sounds.json');
 
+const imageDir = 'app/img/';
 const creditFilename = './ui/credits.html';
 const indexFilename = './ui/index.html';
 const findPattern = /(<!-- GENERATED -->.*?<!-- \/GENERATED -->)/;
@@ -23,7 +24,7 @@ function getAudioItemsHTML(items) {
 }
 
 function getCollectionsHTML(collections, items) {
-  const imagePath = `${config.targetImageDirectory}thumb/`;
+  const imagePath = `${imageDir}thumb/`;
   let html = '';
   html += '<h2>Featured collections</h2>';
   html += '<ul class="collection-list">';
@@ -52,7 +53,7 @@ function getCollectionsHTML(collections, items) {
 }
 
 function getItemsHTML(items) {
-  const imagePath = `${config.targetImageDirectory}thumb/`;
+  const imagePath = `${imageDir}thumb/`;
   let html = '';
   html += '<h2>Featured collection items</h2>';
   html += '<ul class="item-list">';
