@@ -4,10 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const utils = require('./utils');
 const config = require('./config.json');
-const sounds = require('./app/audio/culturecraft_sounds.json');
+const sounds = require('./ui/app/audio/culturecraft_sounds.json');
 
-const creditFilename = './credits.html';
-const indexFilename = './index.html';
+const creditFilename = './ui/credits.html';
+const indexFilename = './ui/index.html';
 const findPattern = /(<!-- GENERATED -->.*?<!-- \/GENERATED -->)/;
 const replacePattern = '<!-- GENERATED -->(*)<!-- /GENERATED -->';
 

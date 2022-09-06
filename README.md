@@ -26,7 +26,7 @@ npm run
    - `filename` must match the image's filename in `./ingest/images/`
 1. If you haven't already, run `npm install`
 1. Run `npm run ingest` which will generate image thumbnails and json in the app directory
-1. Run `npm run credits` which will update the `index.html` and `credits.html` with collection and item metadata.
+1. Run `npm run credits` which will update the `./site/index.html` and `./site/credits.html` with collection and item metadata.
 1. View the app locally by running `npm start`
 
 
