@@ -3,6 +3,8 @@
   "description": "Paint with open culture",
   "scripts": {
     "credits": "node credits.js",
+    "deploy": "aws s3 sync ./ui s3://culturecraft.brianfoo.com --delete",
+    "dryrun": "aws s3 sync ./ui s3://culturecraft.brianfoo.com --delete --dryrun",
     "ingest": "node ingest.js",
     "ingest-reset": "node ingest.js -reset",
     "lint": "./node_modules/.bin/eslint",
